@@ -11,7 +11,7 @@ services:
       - "--certificatesresolvers.cloudflare.acme.email=${EMAIL}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ../config/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - /mnt/data/letsencrypt:/etc/traefik/certs:rw
     networks:
       reverse-proxy:
