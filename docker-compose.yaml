@@ -1,0 +1,4 @@
+include:
+  - service/nextcloud.yaml
+  - service/nginx.yaml
+  - service/traefik.yaml

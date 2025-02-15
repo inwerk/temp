@@ -1,0 +1,67 @@
+services:
+  nextcloud:
+    image: nextcloud:latest
+    container_name: nextcloud
+    volumes:
+      - /mnt/data/nextcloud:/var/www/html
+    env_file:
+      - .env
+    environment:
+      - APACHE_DISABLE_REWRITE_IP=1
+      - TRUSTED_PROXIES=172.30.255.254/16
+      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
+      - REDIS_HOST=redis
+      - REDIS_HOST_PASSWORD=test # REPLACE WITH REDIS PASSWORD
+      - MYSQL_HOST=mariadb
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=test # REPLACE WITH PASSWORD OF MYSQL USER
+      - MYSQL_DATABASE=nextcloud
+    depends_on:
+      - mariadb
+      - redis
+    networks:
+      - reverse-proxy
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nextcloud-secure.entrypoints=websecure"
+      - "traefik.http.routers.nextcloud-secure.rule=Host(`cloud.${DOMAIN}`)"
+      - "traefik.http.middlewares.nc-rep.redirectregex.regex=https://(.*)/.well-known/(card|cal)dav"
+      - "traefik.http.middlewares.nc-rep.redirectregex.replacement=https://$$1/remote.php/dav/"
+      - "traefik.http.middlewares.nc-rep.redirectregex.permanent=true"
+      - "traefik.http.middlewares.nc-header.headers.customFrameOptionsValue=SAMEORIGIN"
+      - "traefik.http.middlewares.nc-header.headers.customResponseHeaders.Strict-Transport-Security=15552000"
+      - "traefik.http.routers.nextcloud-secure.middlewares=nc-rep,nc-header"
+      - "traefik.http.routers.nextcloud-secure.tls=true"
+      - "traefik.http.routers.nextcloud-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.nextcloud-secure.service=nextcloud"
+      - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
+      - "traefik.http.services.nextcloud.loadbalancer.passHostHeader=true"
+    restart: unless-stopped
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
+    volumes:
+      - /mnt/data/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=test # REPLACE WITH MYSQL ROOT PASSWORD
+      - MYSQL_PASSWORD=test # REPLACE WITH PASSWORD OF MYSQL USER
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_INITDB_SKIP_TZINFO=1
+      - MARIADB_AUTO_UPGRADE=1
+    networks:
+      - default
+    restart: unless-stopped
+  redis:
+    image: redis:alpine
+    container_name: redis
+    hostname: redis
+    command: redis-server --requirepass test # REPLACE WITH REDIS PASSWORD
+    networks:
+      - default
+    restart: unless-stopped
+networks:
+  reverse-proxy:
+    external: true

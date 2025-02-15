@@ -1,0 +1,19 @@
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    env_file:
+      - .env
+    networks:
+      - reverse-proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nginx.tls=true
+      - traefik.http.routers.nginx.tls.certresolver=cloudflare
+      - traefik.http.routers.nginx.entrypoints=websecure
+      - traefik.http.routers.nginx.rule=Host(`test.${DOMAIN}`)
+    restart: unless-stopped
+networks:
+  reverse-proxy:
+    external: true
+

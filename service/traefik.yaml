@@ -1,0 +1,29 @@
+services:
+  traefik:
+    image: traefik:v3.3
+    container_name: "traefik"
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file:
+      - .env
+    environment:
+      - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
+    command:
+      - "--certificatesresolvers.cloudflare.acme.email=${EMAIL}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - /mnt/data/letsencrypt:/etc/traefik/certs:rw
+    networks:
+      reverse-proxy:
+        ipv4_address: 172.30.255.254
+    restart: unless-stopped
+networks:
+  reverse-proxy:
+    name: "reverse-proxy"
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/16
