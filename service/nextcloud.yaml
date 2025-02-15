@@ -4,15 +4,18 @@ services:
     container_name: nextcloud
     volumes:
       - /mnt/data/nextcloud:/var/www/html
+    secrets:
+      - NEXTCLOUD_REDIS_HOST_PASSWORD
+      - NEXTCLOUD_MYSQL_PASSWORD
     environment:
       - APACHE_DISABLE_REWRITE_IP=1
       - TRUSTED_PROXIES=172.30.255.254/16
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
       - REDIS_HOST=redis
-      - REDIS_HOST_PASSWORD=test # REPLACE WITH REDIS PASSWORD
+      - REDIS_HOST_PASSWORD=/run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
       - MYSQL_HOST=mariadb
       - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD=test # REPLACE WITH PASSWORD OF MYSQL USER
+      - MYSQL_PASSWORD=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
       - MYSQL_DATABASE=nextcloud
     depends_on:
       - mariadb
@@ -22,17 +25,17 @@ services:
       - default
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.nextcloud-secure.tls=true"
+      - "traefik.http.routers.nextcloud-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.nextcloud-secure.entrypoints=websecure"
       - "traefik.http.routers.nextcloud-secure.rule=Host(`cloud.${DOMAIN}`)"
+      - "traefik.http.routers.nextcloud-secure.middlewares=nc-rep,nc-header"
+      - "traefik.http.routers.nextcloud-secure.service=nextcloud"
       - "traefik.http.middlewares.nc-rep.redirectregex.regex=https://(.*)/.well-known/(card|cal)dav"
       - "traefik.http.middlewares.nc-rep.redirectregex.replacement=https://$$1/remote.php/dav/"
       - "traefik.http.middlewares.nc-rep.redirectregex.permanent=true"
       - "traefik.http.middlewares.nc-header.headers.customFrameOptionsValue=SAMEORIGIN"
       - "traefik.http.middlewares.nc-header.headers.customResponseHeaders.Strict-Transport-Security=15552000"
-      - "traefik.http.routers.nextcloud-secure.middlewares=nc-rep,nc-header"
-      - "traefik.http.routers.nextcloud-secure.tls=true"
-      - "traefik.http.routers.nextcloud-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.nextcloud-secure.service=nextcloud"
       - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
       - "traefik.http.services.nextcloud.loadbalancer.passHostHeader=true"
     restart: unless-stopped
@@ -42,9 +45,12 @@ services:
     command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
     volumes:
       - /mnt/data/mysql:/var/lib/mysql
+    secrets:
+      - NEXTCLOUD_MYSQL_ROOT_PASSWORD
+      - NEXTCLOUD_MYSQL_PASSWORD
     environment:
-      - MYSQL_ROOT_PASSWORD=test # REPLACE WITH MYSQL ROOT PASSWORD
-      - MYSQL_PASSWORD=test # REPLACE WITH PASSWORD OF MYSQL USER
+      - MYSQL_ROOT_PASSWORD=/run/secrets/NEXTCLOUD_NEXTCLOUD_MYSQL_ROOT_PASSWORD
+      - MYSQL_PASSWORD=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - MYSQL_INITDB_SKIP_TZINFO=1
@@ -53,10 +59,12 @@ services:
       - default
     restart: unless-stopped
   redis:
-    image: redis:alpine
+    image: redis:latest
     container_name: redis
     hostname: redis
-    command: redis-server --requirepass test # REPLACE WITH REDIS PASSWORD
+    command: redis-server --requirepass $(cat /run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)
+    secrets:
+      - NEXTCLOUD_REDIS_HOST_PASSWORD
     networks:
       - default
     restart: unless-stopped
