@@ -29,6 +29,6 @@ certificatesResolvers:
           - "8.8.8.8:53"
 providers:
   docker:
-    endpoint: "unix:///var/run/docker.sock"
+    endpoint: "tcp://docker-socket:2375"
     exposedByDefault: false
 
