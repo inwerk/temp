@@ -1,3 +1,5 @@
+env_file:
+  - .env
 include:
   - service/nextcloud.yaml
   - service/nginx.yaml

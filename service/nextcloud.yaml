@@ -4,8 +4,6 @@ services:
     container_name: nextcloud
     volumes:
       - /mnt/data/nextcloud:/var/www/html
-    env_file:
-      - .env
     environment:
       - APACHE_DISABLE_REWRITE_IP=1
       - TRUSTED_PROXIES=172.30.255.254/16

@@ -2,8 +2,6 @@ services:
   nginx:
     container_name: nginx
     image: nginx:latest
-    env_file:
-      - .env
     networks:
       - reverse-proxy
     labels:
