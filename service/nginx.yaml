@@ -13,7 +13,3 @@ services:
       - traefik.http.routers.nginx.entrypoints=websecure
       - traefik.http.routers.nginx.rule=Host(`test.${DOMAIN}`)
     restart: unless-stopped
-networks:
-  reverse-proxy:
-    external: true
-

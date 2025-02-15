@@ -62,6 +62,3 @@ services:
     networks:
       - default
     restart: unless-stopped
-networks:
-  reverse-proxy:
-    external: true
