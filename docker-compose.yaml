@@ -2,3 +2,10 @@ include:
   - service/nextcloud.yaml
   - service/nginx.yaml
   - service/traefik.yaml
+secrets:
+  NEXTCLOUD_MYSQL_ROOT_PASSWORD:
+    file: /mnt/data/secrets/NEXTCLOUD_MYSQL_ROOT_PASSWORD
+  NEXTCLOUD_MYSQL_PASSWORD:
+    file: /mnt/data/secrets/NEXTCLOUD_MYSQL_PASSWORD
+  NEXTCLOUD_REDIS_HOST_PASSWORD:
+    file: /mnt/data/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
