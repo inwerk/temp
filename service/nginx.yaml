@@ -1,13 +1,14 @@
 services:
   nginx:
-    container_name: nginx
     image: nginx:latest
-    networks:
-      - reverse-proxy
+    container_name: nginx
+    restart: unless-stopped
     labels:
       - traefik.enable=true
       - traefik.http.routers.nginx.tls=true
       - traefik.http.routers.nginx.tls.certresolver=cloudflare
       - traefik.http.routers.nginx.entrypoints=websecure
       - traefik.http.routers.nginx.rule=Host(`test.${DOMAIN}`)
-    restart: unless-stopped
+    user: "2000:2000"
+    networks:
+      - reverse-proxy

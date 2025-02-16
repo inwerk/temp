@@ -15,8 +15,11 @@ TODO
 | [Gitea](https://github.com/go-gitea/gitea)                      | Git repository management              | ❌     |
 | [Nextcloud](https://github.com/nextcloud/docker)                | Cloud storage and file synchronization | ✅     |
 | [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome/)     | DNS filtering and local DNS records    | ❌     |
-| [traefik](https://github.com/traefik/traefik)                   | Reverse proxy and load balancer        | ✅     |
+| [traefik](https://github.com/traefik/traefik)                   | Reverse proxy                          | ✅     |
 | [Vaultwarden](https://github.com/dani-garcia/vaultwarden)       | Password manager                       | ❌     |
+
+✅: Implemented.
+❌: Planned, not implemented.
 
 ## Installation
 
@@ -37,3 +40,5 @@ TODO
 ### Setup
 
 TODO
+
+## Security

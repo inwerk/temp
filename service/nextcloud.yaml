@@ -2,27 +2,7 @@ services:
   nextcloud:
     image: nextcloud:latest
     container_name: nextcloud
-    volumes:
-      - /mnt/data/nextcloud:/var/www/html
-    secrets:
-      - NEXTCLOUD_REDIS_HOST_PASSWORD
-      - NEXTCLOUD_MYSQL_PASSWORD
-    environment:
-      - APACHE_DISABLE_REWRITE_IP=1
-      - TRUSTED_PROXIES=172.30.255.254/16
-      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
-      - REDIS_HOST=redis
-      - REDIS_HOST_PASSWORD=/run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
-      - MYSQL_HOST=mariadb
-      - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
-      - MYSQL_DATABASE=nextcloud
-    depends_on:
-      - mariadb
-      - redis
-    networks:
-      - reverse-proxy
-      - default
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud-secure.tls=true"
@@ -38,33 +18,57 @@ services:
       - "traefik.http.middlewares.nc-header.headers.customResponseHeaders.Strict-Transport-Security=15552000"
       - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
       - "traefik.http.services.nextcloud.loadbalancer.passHostHeader=true"
-    restart: unless-stopped
+    user: "2000:2000"
+    secrets:
+      - NEXTCLOUD_REDIS_HOST_PASSWORD
+      - NEXTCLOUD_MYSQL_PASSWORD
+    environment:
+      - APACHE_DISABLE_REWRITE_IP=1
+      - TRUSTED_PROXIES=172.30.255.254/16
+      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
+      - REDIS_HOST=redis
+      - REDIS_HOST_PASSWORD=/run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
+      - MYSQL_HOST=mariadb
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
+      - MYSQL_DATABASE=nextcloud
+    volumes:
+      - /mnt/data/nextcloud:/var/www/html:rw
+    networks:
+      - reverse-proxy
+      - default
+    depends_on:
+      - mariadb
+      - redis
   mariadb:
     image: mariadb:latest
     container_name: mariadb
-    command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
-    volumes:
-      - /mnt/data/mysql:/var/lib/mysql
+    hostname: mariadb
+    restart: unless-stopped
+    user: "2000:2000"
     secrets:
       - NEXTCLOUD_MYSQL_ROOT_PASSWORD
       - NEXTCLOUD_MYSQL_PASSWORD
     environment:
       - MYSQL_ROOT_PASSWORD=/run/secrets/NEXTCLOUD_NEXTCLOUD_MYSQL_ROOT_PASSWORD
+      - MYSQL_USER=nextcloud
       - MYSQL_PASSWORD=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
       - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
       - MYSQL_INITDB_SKIP_TZINFO=1
       - MARIADB_AUTO_UPGRADE=1
+    volumes:
+      - /mnt/data/mysql:/var/lib/mysql:rw
     networks:
       - default
-    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
   redis:
     image: redis:latest
     container_name: redis
     hostname: redis
-    command: redis-server --requirepass $(cat /run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)
+    restart: unless-stopped
+    user: "2000:2000"
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
     networks:
       - default
-    restart: unless-stopped
+    command: redis-server --requirepass $(cat /run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)
