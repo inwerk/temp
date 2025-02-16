@@ -35,7 +35,7 @@ services:
       - CONTAINERS=1
       - DISABLE_IPV6=0
       - DISTRIBUTION=0
-      - EVENTS=0
+      - EVENTS=1
       - EXEC=0
       - IMAGES=0
       - INFO=1
@@ -51,7 +51,7 @@ services:
       - SWARM=0
       - SYSTEM=0
       - TASKS=0
-      - VERSION=0
+      - VERSION=1
       - VOLUMES=0
     read_only: true
     volumes:
