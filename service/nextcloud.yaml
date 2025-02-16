@@ -4,8 +4,6 @@ services:
     container_name: nextcloud
     restart: unless-stopped
     user: "33:33"
-    sysctls:
-      - net.ipv4.ip_unprivileged_port_start=0
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud-secure.tls=true"
@@ -26,8 +24,6 @@ services:
       - NEXTCLOUD_MYSQL_PASSWORD
     environment:
       - APACHE_DISABLE_REWRITE_IP=1
-      - APACHE_RUN_USER=33
-      - APACHE_RUN_GROUP=33
       - TRUSTED_PROXIES=172.30.255.254/16
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
       - REDIS_HOST=redis
@@ -38,6 +34,7 @@ services:
       - MYSQL_DATABASE=nextcloud
     volumes:
       - /mnt/data/nextcloud:/var/www/html:rw
+      - /mnt/data/nextcloud_config:/var/www/html/config:rw
     networks:
       - reverse-proxy
       - default
