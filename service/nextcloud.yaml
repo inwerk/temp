@@ -3,7 +3,7 @@ services:
     image: nextcloud:latest
     container_name: nextcloud
     restart: unless-stopped
-    user: "33:33"
+    user: "2000:2000"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud-secure.tls=true"
@@ -34,7 +34,6 @@ services:
       - MYSQL_DATABASE=nextcloud
     volumes:
       - /mnt/data/nextcloud:/var/www/html:rw
-      - /mnt/data/nextcloud_config:/var/www/html/config:rw
     networks:
       - reverse-proxy
       - default
