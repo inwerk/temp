@@ -9,6 +9,5 @@ services:
       - traefik.http.routers.nginx.tls.certresolver=cloudflare
       - traefik.http.routers.nginx.entrypoints=websecure
       - traefik.http.routers.nginx.rule=Host(`test.${DOMAIN}`)
-    user: "2000:2000"
     networks:
       - reverse-proxy
