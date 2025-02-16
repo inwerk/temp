@@ -4,6 +4,8 @@ services:
     container_name: nextcloud
     restart: unless-stopped
     user: "33:33"
+    sysctls:
+      - net.ipv4.ip_unprivileged_port_start=0
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud-secure.tls=true"
