@@ -3,7 +3,7 @@ services:
     image: nextcloud:latest
     container_name: nextcloud
     restart: unless-stopped
-    user: "2000:2000"
+    user: "33:33"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud-secure.tls=true"
@@ -23,7 +23,6 @@ services:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
       - NEXTCLOUD_MYSQL_PASSWORD
     environment:
-      - APACHE_DISABLE_REWRITE_IP=1
       - TRUSTED_PROXIES=172.30.255.254/16
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
       - REDIS_HOST=redis
@@ -34,6 +33,8 @@ services:
       - MYSQL_DATABASE=nextcloud
     volumes:
       - /mnt/data/nextcloud:/var/www/html:rw
+      # https://github.com/nextcloud/docker/issues/1494
+      - /mnt/data/remoteip.conf:/etc/apache2/conf-enabled/remoteip.conf:ro
     networks:
       - reverse-proxy
       - default
