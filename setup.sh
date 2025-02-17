@@ -9,8 +9,8 @@ mkdir -p /mnt/data/nextcloud
 mkdir -p /mnt/data/mysql
 mkdir -p /mnt/data/secrets
 
-touch /mnt/data/remoteip.conf
-touch /mnt/data/redis-session.ini
+touch /mnt/data/remoteip.conf && chown 33:33 /mnt/data/remoteip.conf
+touch /mnt/data/redis-session.ini && chown 33:33 /mnt/data/redis-session.ini
 
 openssl rand -base64 32 | tr -dc _A-Z-a-z-0-9 > /mnt/data/secrets/NEXTCLOUD_MYSQL_ROOT_PASSWORD
 openssl rand -base64 32 | tr -dc _A-Z-a-z-0-9 > /mnt/data/secrets/NEXTCLOUD_MYSQL_PASSWORD
