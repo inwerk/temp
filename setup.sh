@@ -3,9 +3,6 @@ docker compose down
 # Import environment variables from .env file
 # set -a && source .env && set +a
 
-# Get docker group id and save to .env
-sed -i "/^DOCKER_GID=/d" .env && printf "DOCKER_GID=%s\n" "$(getent group docker | cut -d: -f3)" >> .env
-
 mkdir -p /mnt/data
 mkdir -p /mnt/data/letsencrypt
 mkdir -p /mnt/data/nextcloud && chown 2022:2022 /mnt/data/nextcloud
