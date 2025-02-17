@@ -3,7 +3,7 @@ services:
     image: nginxinc/nginx-unprivileged:latest
     container_name: nginx
     restart: unless-stopped
-    user: "2000:2000"
+    user: "2022:2022"
     labels:
       - traefik.enable=true
       - traefik.http.routers.nginx.tls=true

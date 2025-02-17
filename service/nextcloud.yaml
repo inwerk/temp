@@ -3,7 +3,7 @@ services:
     image: nextcloud:latest
     container_name: nextcloud
     restart: unless-stopped
-    user: "33:33"
+    user: "2022:2022"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud-secure.tls=true"
@@ -46,7 +46,7 @@ services:
       - mariadb
       - redis
   mariadb:
-    image: mariadb:latest
+    image: mariadb:11.4
     container_name: mariadb
     hostname: mariadb
     restart: unless-stopped
@@ -73,7 +73,7 @@ services:
     container_name: redis
     hostname: redis
     restart: unless-stopped
-    user: "2000:2000"
+    user: "2022:2022"
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
     networks:
