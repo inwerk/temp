@@ -73,7 +73,7 @@ services:
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
     environment:
-      - REDIS_HOST_PASSWORD=$(cat /run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)
+      - REDIS_HOST_PASSWORD=$(cat /mnt/data/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)
     networks:
       - default
     command: redis-server --requirepass ${REDIS_HOST_PASSWORD}
