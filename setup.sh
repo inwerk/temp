@@ -2,6 +2,7 @@ docker compose down
 
 # Import environment variables from .env file
 # set -a && source .env && set +a
+export DOCKER_GID=$(getent group docker | cut -d: -f3)
 
 mkdir -p /mnt/data
 mkdir -p /mnt/data/letsencrypt
