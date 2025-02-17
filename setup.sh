@@ -2,7 +2,9 @@ docker compose down
 
 # Import environment variables from .env file
 # set -a && source .env && set +a
-export DOCKER_GID=$(getent group docker | cut -d: -f3)
+
+# Get docker group id and save to .env
+sed -i "/^DOCKER_GID=/d" .env && printf "DOCKER_GID=%s\n" "$(getent group docker | cut -d: -f3)" >> .env
 
 mkdir -p /mnt/data
 mkdir -p /mnt/data/letsencrypt
@@ -10,7 +12,7 @@ mkdir -p /mnt/data/nextcloud && chown 2022:2022 /mnt/data/nextcloud
 mkdir -p /mnt/data/mysql && chown 2022:2022 /mnt/data/mysql
 mkdir -p /mnt/data/secrets
 
-# workaround for https://github.com/nextcloud/docker/issues/1494 and https://github.com/nextcloud/docker/issues/763
+# Workaround for https://github.com/nextcloud/docker/issues/1494 and https://github.com/nextcloud/docker/issues/763
 mkdir -p /mnt/data/.fix
 touch /mnt/data/.fix/remoteip.conf && chown 2022:2022 /mnt/data/.fix/remoteip.conf
 touch /mnt/data/.fix/redis-session.ini && chown 2022:2022 /mnt/data/.fix/redis-session.ini
