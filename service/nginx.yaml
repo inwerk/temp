@@ -1,8 +1,9 @@
 services:
   nginx:
-    image: nginx:latest
+    image: nginxinc/nginx-unprivileged:latest
     container_name: nginx
     restart: unless-stopped
+    user: "2000:2000"
     labels:
       - traefik.enable=true
       - traefik.http.routers.nginx.tls=true
