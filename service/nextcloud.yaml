@@ -46,7 +46,7 @@ services:
       - mariadb
       - redis
   mariadb:
-    image: mariadb:latest
+    image: lscr.io/linuxserver/mariadb:latest
     container_name: mariadb
     hostname: mariadb
     restart: unless-stopped
