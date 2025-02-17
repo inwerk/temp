@@ -35,9 +35,9 @@ services:
       - /mnt/data/nextcloud:/var/www/html:rw
       # https://github.com/nextcloud/docker/issues/763
       # https://github.com/nextcloud/docker/issues/1494
-      - /mnt/data/remoteip.conf:/etc/apache2/conf-enabled/remoteip.conf:ro
-      - /mnt/data/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:rw
-      - /mnt/data/nextcloud-init-sync.lock:/var/www/html/nextcloud-init-sync.lock:rw
+      - /mnt/data/.conf/remoteip.conf:/etc/apache2/conf-enabled/remoteip.conf:ro
+      - /mnt/data/.conf/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:rw
+      - /mnt/data/.conf/nextcloud-init-sync.lock:/var/www/html/nextcloud-init-sync.lock:rw
     networks:
       - reverse-proxy
       - default
