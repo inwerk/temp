@@ -3,7 +3,7 @@ services:
     image: nextcloud:latest
     container_name: nextcloud
     restart: unless-stopped
-    user: "2022:2022"
+    user: "33:33"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud-secure.tls=true"
@@ -73,7 +73,7 @@ services:
     container_name: redis
     hostname: redis
     restart: unless-stopped
-    #user: "2000:2000"
+    user: "2000:2000"
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
     networks:
