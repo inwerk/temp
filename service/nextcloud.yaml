@@ -36,7 +36,7 @@ services:
       # https://github.com/nextcloud/docker/issues/1494
       - /mnt/data/remoteip.conf:/etc/apache2/conf-enabled/remoteip.conf:ro
       # https://github.com/nextcloud/docker/issues/763
-      - /mnt/data/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:ro
+      - /mnt/data/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:rw
     networks:
       - reverse-proxy
       - default
