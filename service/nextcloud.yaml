@@ -72,8 +72,6 @@ services:
     user: "2000:2000"
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
-    environment:
-      - REDIS_HOST_PASSWORD=$(cat /mnt/data/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)
     networks:
       - default
-    command: redis-server --requirepass ${REDIS_HOST_PASSWORD}
+    command: redis-server --requirepass test
