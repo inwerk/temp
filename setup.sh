@@ -6,8 +6,8 @@ docker compose down
 mkdir -p /mnt/data
 mkdir -p /mnt/data/letsencrypt
 mkdir -p /mnt/data/nextcloud && chown 33:33 /mnt/data/nextcloud
-mkdir -p /mnt/data/mysql
-mkdir -p /mnt/data/secrets
+mkdir -p /mnt/data/mysql && chown 2000:2000 /mnt/data/nextcloud
+mkdir -p /mnt/data/secrets && chown 2000:2000 /mnt/data/nextcloud
 
 # workaround for https://github.com/nextcloud/docker/issues/1494 and https://github.com/nextcloud/docker/issues/763
 mkdir -p /mnt/data/.fix
