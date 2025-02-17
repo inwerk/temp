@@ -5,7 +5,7 @@ docker compose down
 
 mkdir -p /mnt/data
 mkdir -p /mnt/data/letsencrypt
-mkdir -p /mnt/data/nextcloud
+mkdir -p /mnt/data/nextcloud && chown 33:33 /mnt/data/nextcloud
 mkdir -p /mnt/data/mysql
 mkdir -p /mnt/data/secrets
 
