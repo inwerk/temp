@@ -17,6 +17,5 @@ touch /mnt/data/.fix/redis-session.ini && chown 2000:2000 /mnt/data/.fix/redis-s
 openssl rand -base64 32 | tr -dc _A-Z-a-z-0-9 > /mnt/data/secrets/NEXTCLOUD_MYSQL_ROOT_PASSWORD
 openssl rand -base64 32 | tr -dc _A-Z-a-z-0-9 > /mnt/data/secrets/NEXTCLOUD_MYSQL_PASSWORD
 openssl rand -base64 32 | tr -dc _A-Z-a-z-0-9 > /mnt/data/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
-"test" > /mnt/data/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
 
 docker compose up -d
