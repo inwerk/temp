@@ -50,7 +50,7 @@ services:
     container_name: mariadb
     hostname: mariadb
     restart: unless-stopped
-    #user: "2000:2000"
+    user: "2000:2000"
     secrets:
       - NEXTCLOUD_MYSQL_ROOT_PASSWORD
       - NEXTCLOUD_MYSQL_PASSWORD
