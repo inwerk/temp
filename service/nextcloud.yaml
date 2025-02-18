@@ -27,10 +27,13 @@ services:
     environment:
       - TRUSTED_PROXIES=172.30.255.254/16
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
-      - REDIS_HOST=nextcloud-redis
+      - OVERWRITEHOST=cloud.${DOMAIN}
+      - OVERWRITEPROTOCOL=https
+      - OVERWRITECLIURL=https://cloud.${DOMAIN}
+      - REDIS_HOST=redis
       - REDIS_HOST_PASSWORD=test
       #- REDIS_HOST_PASSWORD_FILE=/run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
-      - MYSQL_HOST=nextcloud-mysql
+      - MYSQL_HOST=mysql
       - MYSQL_USER=nextcloud
       - MYSQL_PASSWORD=test
       #- MYSQL_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
@@ -42,17 +45,15 @@ services:
       # https://github.com/nextcloud/docker/issues/763
       - /mnt/data/.fix/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:rw
     networks:
-      reverse-proxy:
-        ipv4_address: 172.30.255.253
-      nextcloud-net:
-        ipv4_address: 172.32.255.254
+      - reverse-proxy
+      - nextcloud-net
     depends_on:
       - nextcloud-mysql
       - nextcloud-redis
   nextcloud-mysql:
     image: mariadb:11.4
     container_name: nextcloud-mysql
-    hostname: nextcloud-mysql
+    hostname: mysql
     restart: unless-stopped
     user: "2022:2022"
     secrets:
@@ -70,20 +71,18 @@ services:
     volumes:
       - /mnt/data/nextcloud-mysql:/var/lib/mysql:rw
     networks:
-      nextcloud-net:
-        ipv4_address: 172.32.255.253
+      - nextcloud-net
     command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
   nextcloud-redis:
     image: redis:latest
     container_name: nextcloud-redis
-    hostname: nextcloud-redis
+    hostname: redis
     restart: unless-stopped
     user: "2022:2022"
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
     networks:
-      nextcloud-net:
-        ipv4_address: 172.32.255.252
+      - nextcloud-net
     command: redis-server --requirepass test
 networks:
   nextcloud-net:
