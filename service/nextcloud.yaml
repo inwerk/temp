@@ -1,8 +1,8 @@
 services:
   nextcloud:
     image: nextcloud:latest
-    container_name: nextcloud
-    hostname: nextcloud
+    container_name: "nextcloud"
+    hostname: "nextcloud"
     restart: unless-stopped
     user: "2022:2022"
     labels:
@@ -52,10 +52,10 @@ services:
       - nextcloud-redis
   nextcloud-mysql:
     image: mariadb:11.4
-    container_name: nextcloud-mysql
-    hostname: mysql
+    container_name: "nextcloud-mysql"
+    hostname: "mysql"
     restart: unless-stopped
-    user: "2022:2022"
+    #user: "2022:2022"
     secrets:
       - NEXTCLOUD_MYSQL_ROOT_PASSWORD
       - NEXTCLOUD_MYSQL_PASSWORD
@@ -75,8 +75,8 @@ services:
     command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
   nextcloud-redis:
     image: redis:latest
-    container_name: nextcloud-redis
-    hostname: redis
+    container_name: "nextcloud-redis"
+    hostname: "redis"
     restart: unless-stopped
     user: "2022:2022"
     secrets:

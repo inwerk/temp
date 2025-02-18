@@ -22,7 +22,7 @@ services:
       - "--certificatesresolvers.cloudflare.acme.email=${EMAIL}"
   docker-socket:
     image: lscr.io/linuxserver/socket-proxy:latest
-    container_name: docker-socket
+    container_name: "docker-socket"
     restart: unless-stopped
     environment:
       - ALLOW_START=0
