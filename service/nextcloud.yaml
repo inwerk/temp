@@ -2,6 +2,7 @@ services:
   nextcloud:
     image: nextcloud:latest
     container_name: nextcloud
+    hostname: nextcloud
     restart: unless-stopped
     user: "2022:2022"
     labels:
@@ -40,8 +41,10 @@ services:
       # https://github.com/nextcloud/docker/issues/763
       - /mnt/data/.fix/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:rw
     networks:
-      - reverse-proxy
-      - default
+      reverse-proxy:
+        ipv4_address: 172.30.255.253
+      nextcloud-net:
+        ipv4_address: 172.32.255.254
     depends_on:
       - mariadb
       - redis
@@ -66,7 +69,8 @@ services:
     volumes:
       - /mnt/data/mysql:/var/lib/mysql:rw
     networks:
-      - default
+      nextcloud-net:
+        ipv4_address: 172.32.255.253
     command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
   redis:
     image: redis:latest
@@ -77,5 +81,16 @@ services:
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
     networks:
-      - default
+      nextcloud-net:
+        ipv4_address: 172.32.255.252
     command: redis-server --requirepass test
+networks:
+  nextcloud-net:
+    name: "nextcloud-net"
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.32.0.0/16
+    attachable: true
+    internal: true
