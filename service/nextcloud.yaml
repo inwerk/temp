@@ -48,7 +48,7 @@ services:
     depends_on:
       - nextcloud-mysql
       - nextcloud-redis
-  mariadb:
+  nextcloud-mysql:
     image: mariadb:11.4
     container_name: nextcloud-mysql
     hostname: nextcloud-mysql
@@ -72,7 +72,7 @@ services:
       nextcloud-net:
         ipv4_address: 172.32.255.253
     command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
-  redis:
+  nextcloud-redis:
     image: redis:latest
     container_name: nextcloud-redis
     hostname: nextcloud-redis
