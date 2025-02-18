@@ -18,16 +18,18 @@ services:
       - "traefik.http.middlewares.nc-rep.redirectregex.permanent=true"
       - "traefik.http.middlewares.nc-header.headers.customFrameOptionsValue=SAMEORIGIN"
       - "traefik.http.middlewares.nc-header.headers.customResponseHeaders.Strict-Transport-Security=15552000"
+      - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
+      - "traefik.http.services.nextcloud.loadbalancer.passHostHeader=true"
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
       - NEXTCLOUD_MYSQL_PASSWORD
     environment:
       - TRUSTED_PROXIES=172.30.255.254/16
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
-      - REDIS_HOST=redis
+      - REDIS_HOST=nextcloud-redis
       - REDIS_HOST_PASSWORD=test
       #- REDIS_HOST_PASSWORD_FILE=/run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
-      - MYSQL_HOST=mariadb
+      - MYSQL_HOST=nextcloud-mysql
       - MYSQL_USER=nextcloud
       - MYSQL_PASSWORD=test
       #- MYSQL_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
@@ -44,12 +46,12 @@ services:
       nextcloud-net:
         ipv4_address: 172.32.255.254
     depends_on:
-      - mariadb
-      - redis
+      - nextcloud-mysql
+      - nextcloud-redis
   mariadb:
     image: mariadb:11.4
-    container_name: mariadb
-    hostname: mariadb
+    container_name: nextcloud-mysql
+    hostname: nextcloud-mysql
     restart: unless-stopped
     user: "2022:2022"
     secrets:
@@ -65,15 +67,15 @@ services:
       - MYSQL_INITDB_SKIP_TZINFO=1
       - MARIADB_AUTO_UPGRADE=1
     volumes:
-      - /mnt/data/mysql:/var/lib/mysql:rw
+      - /mnt/data/nextcloud-mysql:/var/lib/mysql:rw
     networks:
       nextcloud-net:
         ipv4_address: 172.32.255.253
     command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
   redis:
     image: redis:latest
-    container_name: redis
-    hostname: redis
+    container_name: nextcloud-redis
+    hostname: nextcloud-redis
     restart: unless-stopped
     user: "2022:2022"
     secrets:
