@@ -31,4 +31,3 @@ providers:
   docker:
     endpoint: "tcp://docker-socket:2375"
     exposedByDefault: false
-
