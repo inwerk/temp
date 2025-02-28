@@ -57,7 +57,7 @@ services:
       start_period: 10s
       interval: 10s
       timeout: 5s
-      retries: 3
+      retries: 5
     user: "2022:2022"
     secrets:
       - NEXTCLOUD_MYSQL_ROOT_PASSWORD
