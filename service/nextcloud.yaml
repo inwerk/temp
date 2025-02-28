@@ -18,14 +18,17 @@ services:
       - "traefik.http.middlewares.nc-header.headers.customFrameOptionsValue=SAMEORIGIN"
       - "traefik.http.middlewares.nc-header.headers.customResponseHeaders.Strict-Transport-Security=15552000"
       - "traefik.docker.network=reverse-proxy"
+    secrets:
+      - NEXTCLOUD_REDIS_HOST_PASSWORD
+      - NEXTCLOUD_MYSQL_PASSWORD
     environment:
       - TRUSTED_PROXIES=172.30.255.254/16
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
       - REDIS_HOST=redis
-      - REDIS_HOST_PASSWORD=${REDIS_HOST_PASSWORD}
+      - REDIS_HOST_PASSWORD_FILE=/run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
       - MYSQL_HOST=mysql
       - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
       - MYSQL_DATABASE=nextcloud
     volumes:
       - /mnt/data/nextcloud:/var/www/html:rw
@@ -45,10 +48,13 @@ services:
     hostname: "mysql"
     restart: unless-stopped
     user: "2022:2022"
+    secrets:
+      - NEXTCLOUD_MYSQL_ROOT_PASSWORD
+      - NEXTCLOUD_MYSQL_PASSWORD
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_ROOT_PASSWORD
       - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
       - MYSQL_DATABASE=nextcloud
       - MYSQL_INITDB_SKIP_TZINFO=1
       - MARIADB_AUTO_UPGRADE=1
@@ -63,11 +69,11 @@ services:
     hostname: "redis"
     restart: unless-stopped
     user: "2022:2022"
-    environment:
-      - REDIS_HOST_PASSWORD = ${REDIS_HOST_PASSWORD}
+    secrets:
+      - NEXTCLOUD_REDIS_HOST_PASSWORD
     networks:
       - nextcloud-net
-    command: redis-server --requirepass ${REDIS_HOST_PASSWORD}
+    command: bash -c 'redis-server --requirepass "$$(cat /run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)"'
 networks:
   nextcloud-net:
     name: "nextcloud-net"
@@ -78,3 +84,10 @@ networks:
         - subnet: 172.32.0.0/16
     attachable: true
     internal: true
+secrets:
+  NEXTCLOUD_MYSQL_ROOT_PASSWORD:
+    file: /mnt/data/secrets/NEXTCLOUD_MYSQL_ROOT_PASSWORD
+  NEXTCLOUD_MYSQL_PASSWORD:
+    file: /mnt/data/secrets/NEXTCLOUD_MYSQL_PASSWORD
+  NEXTCLOUD_REDIS_HOST_PASSWORD:
+    file: /mnt/data/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
