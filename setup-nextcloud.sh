@@ -40,6 +40,6 @@ docker exec -u 2022 nextcloud /var/www/html/occ app:disable dashboard
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable firstrunwizard
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable nextcloud_announcements
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable notifications
-docker exec -u 2022 nextcloud /var/www/html/occ app:disable suspicious_login
-docker exec -u 2022 nextcloud /var/www/html/occ app:disable twofactor_totp
-docker exec -u 2022 nextcloud /var/www/html/occ app:disable user_ldap
+docker exec -u 2022 nextcloud /var/www/html/occ app:disable support
+docker exec -u 2022 nextcloud /var/www/html/occ app:disable survey_client
+docker exec -u 2022 nextcloud /var/www/html/occ app:disable weather_status
