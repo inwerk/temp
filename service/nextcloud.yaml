@@ -28,7 +28,8 @@ services:
       - REDIS_HOST_PASSWORD_FILE=/run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
       - MYSQL_HOST=mysql
       - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
+      #- MYSQL_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
+      - MYSQL_PASSWORD=test
       - MYSQL_DATABASE=nextcloud
     volumes:
       - /mnt/data/nextcloud:/var/www/html:rw
@@ -52,9 +53,11 @@ services:
       - NEXTCLOUD_MYSQL_ROOT_PASSWORD
       - NEXTCLOUD_MYSQL_PASSWORD
     environment:
-      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_ROOT_PASSWORD
+      #- MYSQL_ROOT_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_ROOT_PASSWORD
+      - MYSQL_ROOT_PASSWORD=test
       - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
+      #- MYSQL_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
+      - MYSQL_PASSWORD=test
       - MYSQL_DATABASE=nextcloud
       - MYSQL_INITDB_SKIP_TZINFO=1
       - MARIADB_AUTO_UPGRADE=1
