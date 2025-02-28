@@ -18,8 +18,9 @@ TODO
 | [traefik](https://github.com/traefik/traefik)                   | Reverse proxy                          | ✅     |
 | [Vaultwarden](https://github.com/dani-garcia/vaultwarden)       | Password manager                       | ❌     |
 
-✅: Implemented.
-❌: Planned, not implemented.
+✅ Implemented.
+
+❌ Planned, not implemented.
 
 ## Installation
 
@@ -32,6 +33,26 @@ This Docker installation script implements the [installation instructions for De
 ```bash
 curl -sSL https://raw.githubusercontent.com/inwerk/debian-homelab/master/install-docker.sh | sudo bash
 ```
+
+Clone this repository...
+
+```bash
+git clone https://github.com/inwerk/debian-homelab.git
+```
+
+Change the current directory to the project's directory...
+
+```bash
+cd debian-homelab
+```
+
+Configure the environment variables...
+
+```bash
+nano .env
+```
+
+...
 
 ### Configuration
 

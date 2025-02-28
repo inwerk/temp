@@ -7,7 +7,7 @@ services:
       - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
     volumes:
       - ../config/traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - /mnt/data/letsencrypt:/etc/traefik/certs:rw
+      - ${VOLUME_PATH}/letsencrypt:/etc/traefik/certs:rw
     ports:
       - "80:80"
       - "443:443"
