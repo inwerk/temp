@@ -19,13 +19,14 @@ services:
       - "traefik.http.middlewares.nc-header.headers.customResponseHeaders.Strict-Transport-Security=15552000"
       - "traefik.docker.network=reverse-proxy"
     secrets:
+      - NEXTCLOUD_ADMIN_PASSWORD
       - NEXTCLOUD_REDIS_HOST_PASSWORD
       - NEXTCLOUD_MYSQL_PASSWORD
     environment:
       - TRUSTED_PROXIES=172.30.255.254/16
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
-      - NEXTCLOUD_ADMIN_USER=test
-      - NEXTCLOUD_ADMIN_PASSWORD=test
+      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
+      - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/NEXTCLOUD_ADMIN_PASSWORD
       - REDIS_HOST=redis
       - REDIS_HOST_PASSWORD_FILE=/run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
       - MYSQL_HOST=mysql
@@ -97,6 +98,8 @@ networks:
     attachable: true
     internal: true
 secrets:
+  NEXTCLOUD_ADMIN_PASSWORD:
+    file: /mnt/data/secrets/NEXTCLOUD_ADMIN_PASSWORD
   NEXTCLOUD_MYSQL_ROOT_PASSWORD:
     file: /mnt/data/secrets/NEXTCLOUD_MYSQL_ROOT_PASSWORD
   NEXTCLOUD_MYSQL_PASSWORD:

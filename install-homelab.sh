@@ -12,6 +12,7 @@ touch /mnt/data/.fix/remoteip.conf && chown 2022:2022 /mnt/data/.fix/remoteip.co
 touch /mnt/data/.fix/redis-session.ini && chown 2022:2022 /mnt/data/.fix/redis-session.ini
 
 # Secrets
+openssl rand -base64 32 | tr -dc _A-Z-a-z-0-9 > /mnt/data/secrets/NEXTCLOUD_ADMIN_PASSWORD
 openssl rand -base64 32 | tr -dc _A-Z-a-z-0-9 > /mnt/data/secrets/NEXTCLOUD_MYSQL_ROOT_PASSWORD
 openssl rand -base64 32 | tr -dc _A-Z-a-z-0-9 > /mnt/data/secrets/NEXTCLOUD_MYSQL_PASSWORD
 openssl rand -base64 32 | tr -dc _A-Z-a-z-0-9 > /mnt/data/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
