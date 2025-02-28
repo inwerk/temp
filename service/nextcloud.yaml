@@ -84,6 +84,8 @@ services:
     user: "2022:2022"
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
+    volumes:
+      - ${VOLUME_PATH}/nextcloud-redis:/data
     networks:
       - nextcloud-net
     command: bash -c 'redis-server --requirepass "$$(cat /run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)"'

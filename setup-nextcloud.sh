@@ -36,10 +36,12 @@ docker exec -u 2022 nextcloud /var/www/html/occ app:update --all
 
 # Disable redundant Nextcloud apps.
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable activity
+docker exec -u 2022 nextcloud /var/www/html/occ app:disable comments
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable dashboard
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable firstrunwizard
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable nextcloud_announcements
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable notifications
+docker exec -u 2022 nextcloud /var/www/html/occ app:disable recommendations
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable support
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable survey_client
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable weather_status
