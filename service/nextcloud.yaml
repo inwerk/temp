@@ -43,7 +43,8 @@ services:
     depends_on:
       nextcloud-mysql:
         condition: service_healthy
-      - nextcloud-redis
+      nextcloud-redis:
+        condition: service_started
   nextcloud-mysql:
     image: mariadb:11.4
     container_name: "nextcloud-mysql"

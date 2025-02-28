@@ -44,5 +44,6 @@ TODO
 ## Security
 
 ## References
+- [Docker Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html)
 - [MariaDB container as non-root user](https://mariadb.com/kb/en/docker-official-image-frequently-asked-questions/#can-i-run-the-mariadb-container-as-an-arbitrary-user)
 - [Health Check for MariaDB](https://mariadb.com/kb/en/using-healthcheck-sh/)
