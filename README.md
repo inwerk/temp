@@ -42,3 +42,7 @@ TODO
 TODO
 
 ## Security
+
+## References
+- [MariaDB container as non-root user](https://mariadb.com/kb/en/docker-official-image-frequently-asked-questions/#can-i-run-the-mariadb-container-as-an-arbitrary-user)
+- [Health Check for MariaDB](https://mariadb.com/kb/en/using-healthcheck-sh/)
