@@ -31,11 +31,14 @@ services:
     container_name: "docker-socket"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "wget --quiet --tries=1 --timeout=1 --spider http://localhost:2375/_ping"]
-      start_period: 10s
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      test:
+        - CMD
+        - wget
+        - --quiet
+        - --tries=1
+        - --timeout=1
+        - --spider
+        - http://localhost:2375/_ping
     environment:
       - ALLOW_START=0
       - ALLOW_STOP=0
