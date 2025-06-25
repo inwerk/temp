@@ -5,7 +5,7 @@ services:
     hostname: "crowdsec"
     restart: unless-stopped
     environment:
-      COLLECTIONS: "crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/http-dos"
+      COLLECTIONS: "crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/http-dos crowdsecurity/base-http-scenarios"
       CUSTOM_HOSTNAME: crowdsec
       BOUNCER_KEY_PLUGIN: password
     volumes:
