@@ -70,7 +70,7 @@ sudo ufw allow ssh
 sudo ufw enable
 ```
 
-[Install Docker](https://docs.docker.com/engine/install/debian/)...
+[Install Docker...](https://docs.docker.com/engine/install/debian/)
 
 ```bash
 # Add Docker's official GPG key:
