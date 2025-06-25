@@ -57,7 +57,7 @@ ssh -i ~/.ssh/<PRIVATE-KEY> <USERNAME>@<IP-ADDRESS>
 
 Set `PermitRootLogin` and `PasswordAuthentication` to `no`, `PubkeyAuthentication` to `yes` and restart SSH...
 
-``bash
+```bash
 sudo nano /etc/ssh/sshd_config
 sudo systemctl restart ssh
 ```
