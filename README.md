@@ -19,7 +19,7 @@ TODO
 | Service                                                         | Description                            | Status |
 | --------------------------------------------------------------- | -------------------------------------- | ------ |
 | [Authelia](https://github.com/authelia/authelia)                | Identity and access management         | ❌     |
-| [CrowdSec](https://github.com/crowdsecurity/crowdsec)           | Threat detection and prevention        | ❌     |
+| [CrowdSec](https://github.com/crowdsecurity/crowdsec)           | Threat detection and prevention        | ✅     |
 | [Gitea](https://github.com/go-gitea/gitea)                      | Git repository management              | ❌     |
 | [Nextcloud](https://github.com/nextcloud/docker)                | Cloud storage and file synchronization | ✅     |
 | [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome/)     | DNS filtering and local DNS records    | ❌     |
