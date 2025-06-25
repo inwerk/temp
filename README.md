@@ -1,14 +1,14 @@
 # Homelab
 
-TODO
-
-## Server Access
-
-Connect to the server via:
-
-```bash
-ssh -i ~/.ssh/<PRIVATE-KEY> <USERNAME>@<IP-ADDRESS>
-```
+- [About](#about)
+   - [Services](#services)
+- [Installation](#installation)
+   - [Initial Server Setup](#initial-server-setup)
+   - [Container Stack](#container-stack)
+- [Maintenance](#maintenance)
+  - [Server Access](#server-access)
+- [Security](#security)
+- [References](#references)
 
 ## About
 
@@ -137,15 +137,19 @@ nano .env
 
 ...
 
-### Configuration
+## Maintenance
 
-TODO
+### Server Access
 
-### Setup
+Connect to the server via:
 
-TODO
+```bash
+ssh -i ~/.ssh/<PRIVATE-KEY> <USERNAME>@<IP-ADDRESS>
+```
 
 ## Security
+
+TODO
 
 ## References
 - [How to Secure an SSH Server in Linux](https://www.baeldung.com/linux/secure-ssh-server)
