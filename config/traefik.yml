@@ -32,12 +32,15 @@ certificatesResolvers:
         resolvers:
           - "1.1.1.1:53"
           - "8.8.8.8:53"
-providers:
-  docker:
-    endpoint: "tcp://docker-socket:2375"
-    exposedByDefault: false
 experimental:
   plugins:
     crowdsec-bouncer-traefik-plugin:
       moduleName: "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
       version: "v1.4.2"
+providers:
+  docker:
+    endpoint: "tcp://docker-socket:2375"
+    exposedByDefault: false
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
