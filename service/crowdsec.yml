@@ -10,6 +10,7 @@ services:
       BOUNCER_KEY_PLUGIN: password
     volumes:
       - ${VOLUME_PATH}/crowdsec:/var/lib/crowdsec/data/
+      - ../config/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
       - /var/log/traefik:/var/log/traefik:ro
     networks:
       crowdsec-internal:
