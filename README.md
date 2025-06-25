@@ -132,6 +132,7 @@ cd debian-homelab
 Configure the environment variables...
 
 ```bash
+cp .env.example .env
 nano .env
 ```
 
