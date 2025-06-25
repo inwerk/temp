@@ -1,7 +1,0 @@
-http:
-  middlewares:
-    crowdsec-bouncer:
-      plugin:
-        crowdsec-bouncer-traefik-plugin:
-          CrowdsecLapiKey: "password"
-          Enabled: true

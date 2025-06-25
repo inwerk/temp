@@ -7,7 +7,7 @@ services:
       - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ../config/traefik.yml:/etc/traefik/traefik.yaml:ro
+      - ../config/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ../config/dynamic:/etc/traefik/dynamic:ro
       - ${VOLUME_PATH}/letsencrypt:/etc/traefik/certs:rw
       - /var/log/traefik:/var/log/traefik:rw
