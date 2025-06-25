@@ -31,17 +31,35 @@ docker exec -u 2022 nextcloud /var/www/html/occ config:system:set skeletondirect
 # Disable template directory for new users.
 docker exec -u 2022 nextcloud /var/www/html/occ config:system:set templatedirectory --type=string --value=''
 
+# Disable preview image generation
+docker exec -u 2022 nextcloud /var/www/html/occ config:system:set enable_previews --type=boolean --value='false'
+
+# Diasable user profiles
+docker exec -u 2022 nextcloud /var/www/html/occ config:system:set profile.enabled --type=boolean --value='false'
+
+# Disable profiles by default for new users
+docker exec -u 2022 nextcloud /var/www/html/occ config:app:set settings profile_enabled_by_default --value='0'
+
+# Disable system address book for all users
+docker exec -u 2022 nextcloud /var/www/html/occ config:app:set dav system_addressbook_exposed --value='no'
+
 # Update all Nextcloud apps.
 docker exec -u 2022 nextcloud /var/www/html/occ app:update --all
+
+# Download and install Nextcloud apps.
+docker exec -u 2022 nextcloud /var/www/html/occ app:install calendar
 
 # Disable redundant Nextcloud apps.
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable activity
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable comments
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable dashboard
+docker exec -u 2022 nextcloud /var/www/html/occ app:disable files_reminders
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable firstrunwizard
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable nextcloud_announcements
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable notifications
+docker exec -u 2022 nextcloud /var/www/html/occ app:disable photos
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable recommendations
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable support
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable survey_client
+docker exec -u 2022 nextcloud /var/www/html/occ app:disable user_status
 docker exec -u 2022 nextcloud /var/www/html/occ app:disable weather_status
