@@ -38,7 +38,7 @@ services:
       - reverse-proxy
       - nextcloud-internal
     depends_on:
-      nextcloud-mysql:
+      nextcloud-database:
         condition: service_healthy
       nextcloud-redis:
         condition: service_started
