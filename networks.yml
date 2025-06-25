@@ -1,0 +1,27 @@
+networks:
+  reverse-proxy:
+    name: "reverse-proxy"
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/16
+    attachable: true
+  socket-proxy:
+    name: "socket-proxy"
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/16
+    attachable: false
+    internal: true
+  nextcloud-internal:
+    name: "nextcloud-internal"
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+    attachable: false
+    internal: true

@@ -1,0 +1,5 @@
+include:
+  - networks.yml
+  - service/nextcloud.yml
+  - service/nginx.yml
+  - service/traefik.yml

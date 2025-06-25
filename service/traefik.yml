@@ -14,9 +14,9 @@ services:
       - "443:443"
     networks:
       reverse-proxy:
-        ipv4_address: 172.30.255.254
+        ipv4_address: 172.18.255.254
       socket-proxy:
-        ipv4_address: 172.31.255.253
+        ipv4_address: 172.19.255.253
     depends_on:
       - docker-socket
     command:
@@ -61,22 +61,4 @@ services:
       - /run
     networks:
       socket-proxy:
-        ipv4_address: 172.31.255.254
-networks:
-  reverse-proxy:
-    name: "reverse-proxy"
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.30.0.0/16
-    attachable: true
-  socket-proxy:
-    name: "socket-proxy"
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.31.0.0/16
-    attachable: true
-    internal: true
+        ipv4_address: 172.19.255.254

@@ -4,7 +4,6 @@ services:
     container_name: "nextcloud"
     hostname: "nextcloud"
     restart: unless-stopped
-    user: "2022:2022"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud.entrypoints=websecure"
@@ -23,7 +22,7 @@ services:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
       - NEXTCLOUD_MYSQL_PASSWORD
     environment:
-      - TRUSTED_PROXIES=172.30.255.254/16
+      - TRUSTED_PROXIES=172.18.255.254/16
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
       - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
       - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/NEXTCLOUD_ADMIN_PASSWORD
@@ -35,21 +34,17 @@ services:
       - MYSQL_DATABASE=nextcloud
     volumes:
       - ${VOLUME_PATH}/nextcloud:/var/www/html:rw
-      # https://github.com/nextcloud/docker/issues/1494
-      - ${VOLUME_PATH}/.fix/remoteip.conf:/etc/apache2/conf-enabled/remoteip.conf:ro
-      # https://github.com/nextcloud/docker/issues/763
-      - ${VOLUME_PATH}/.fix/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:rw
     networks:
       - reverse-proxy
-      - nextcloud-net
+      - nextcloud-internal
     depends_on:
       nextcloud-mysql:
         condition: service_healthy
       nextcloud-redis:
         condition: service_started
-  nextcloud-mysql:
+  nextcloud-database:
     image: mariadb:11.4
-    container_name: "nextcloud-mysql"
+    container_name: "nextcloud-database"
     hostname: "mysql"
     restart: unless-stopped
     healthcheck:
@@ -58,7 +53,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    user: "2022:2022"
     secrets:
       - NEXTCLOUD_MYSQL_ROOT_PASSWORD
       - NEXTCLOUD_MYSQL_PASSWORD
@@ -70,35 +64,24 @@ services:
       - MARIADB_AUTO_UPGRADE=1
       - MYSQL_INITDB_SKIP_TZINFO=1
     volumes:
-      - ${VOLUME_PATH}/nextcloud-mysql:/var/lib/mysql:rw
+      - ${VOLUME_PATH}/nextcloud-database:/var/lib/mysql:rw
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     networks:
-      - nextcloud-net
+      - nextcloud-internal
     command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
   nextcloud-redis:
     image: redis:latest
     container_name: "nextcloud-redis"
     hostname: "redis"
     restart: unless-stopped
-    user: "2022:2022"
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
     volumes:
       - ${VOLUME_PATH}/nextcloud-redis:/data
     networks:
-      - nextcloud-net
+      - nextcloud-internal
     command: bash -c 'redis-server --requirepass "$$(cat /run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)"'
-networks:
-  nextcloud-net:
-    name: "nextcloud-net"
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.32.0.0/16
-    attachable: true
-    internal: true
 secrets:
   NEXTCLOUD_ADMIN_PASSWORD:
     file: ${VOLUME_PATH}/secrets/NEXTCLOUD_ADMIN_PASSWORD
