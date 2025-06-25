@@ -23,22 +23,13 @@ services:
         ipv4_address: 172.20.255.253
     depends_on:
       docker-socket:
-        condition: service_healthy
+        condition: service_started
     command:
       - "--certificatesresolvers.cloudflare.acme.email=${EMAIL}"
   docker-socket:
     image: lscr.io/linuxserver/socket-proxy:latest
     container_name: "docker-socket"
     restart: unless-stopped
-    healthcheck:
-      test:
-        - CMD
-        - wget
-        - --quiet
-        - --tries=1
-        - --timeout=1
-        - --spider
-        - http://localhost:2375/_ping
     environment:
       - ALLOW_START=0
       - ALLOW_STOP=0
