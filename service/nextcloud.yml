@@ -48,7 +48,7 @@ services:
     hostname: "mysql"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      test: ["CMD-SHELL", "healthcheck.sh --connect --innodb_initialized"]
       start_period: 10s
       interval: 10s
       timeout: 5s

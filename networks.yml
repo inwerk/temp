@@ -14,7 +14,14 @@ networks:
       driver: default
       config:
         - subnet: 172.19.0.0/16
-    attachable: false
+    internal: true
+  crowdsec-internal:
+    name: "crowdsec-internal"
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
     internal: true
   nextcloud-internal:
     name: "nextcloud-internal"
@@ -22,6 +29,5 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.20.0.0/16
-    attachable: false
+        - subnet: 172.21.0.0/16
     internal: true

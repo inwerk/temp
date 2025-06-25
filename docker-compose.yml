@@ -1,5 +1,6 @@
 include:
   - networks.yml
+  - service/crowdsec.yml
   - service/nextcloud.yml
   - service/nginx.yml
   - service/traefik.yml

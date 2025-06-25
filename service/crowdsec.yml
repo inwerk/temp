@@ -1,0 +1,15 @@
+crowdsec:
+  image: crowdsecurity/crowdsec
+  container_name: "crowdsec"
+  hostname: "crowdsec"
+  restart: unless-stopped
+  environment:
+    COLLECTIONS: "crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/http-dos"
+    CUSTOM_HOSTNAME: crowdsec
+    BOUNCER_KEY_PLUGIN: password
+  volumes:
+    - ${VOLUME_PATH}/crowdsec:/var/lib/crowdsec/data/
+    - /var/log/traefik:/var/log/traefik:ro
+  networks:
+    crowdsec-internal:
+      ipv4_address: 172.20.255.254

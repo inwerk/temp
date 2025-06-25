@@ -13,8 +13,13 @@ entryPoints:
         entryPoint:
           to: websecure
           scheme: https
+      middlewares:
+        - crowdsec-bouncer@file
   websecure:
     address: :443
+    http:
+      middlewares:
+        - crowdsec-bouncer@file
 certificatesResolvers:
   cloudflare:
     acme:
@@ -31,3 +36,8 @@ providers:
   docker:
     endpoint: "tcp://docker-socket:2375"
     exposedByDefault: false
+experimental:
+  plugins:
+    crowdsec-bouncer-traefik-plugin:
+      moduleName: "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
+      version: "v1.4.2"

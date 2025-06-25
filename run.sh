@@ -4,6 +4,7 @@ export $(grep -v '^#' .env | xargs)
 docker compose down
 
 mkdir -p ${VOLUME_PATH}
+mkdir -p ${VOLUME_PATH}/crowdsec
 mkdir -p ${VOLUME_PATH}/letsencrypt
 mkdir -p ${VOLUME_PATH}/nextcloud
 mkdir -p ${VOLUME_PATH}/nextcloud-database
