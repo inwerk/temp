@@ -1,0 +1,13 @@
+---
+filenames:
+  - /var/log/traefik/access.log
+poll_without_inotify: true
+labels:
+  type: traefik
+---
+filenames:
+  - /var/log/auth.log
+  - /var/log/syslog
+labels:
+  type: syslog
+
