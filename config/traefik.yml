@@ -4,9 +4,13 @@ global:
 log:
   level: DEBUG
   filePath: "/var/log/traefik/traefik.log"
+  format: json
 accessLog:
   filePath: "/var/log/traefik/access.log"
-  bufferingSize: 100
+  format: json
+  bufferingSize: 50
+  fields:
+    defaultMode: keep
 api:
   dashboard: false
 entryPoints:
