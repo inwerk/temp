@@ -13,6 +13,13 @@ mkdir -p ${DATA_PATH}/nextcloud-database
 mkdir -p ${DATA_PATH}/nextcloud-redis
 mkdir -p ${DATA_PATH}/secrets
 
+# fix to mount nextcloud.log
+mkdir -p ${DATA_PATH}/nextcloud/data
+touch ${DATA_PATH}/nextcloud/data/nextcloud.log
+chown www-data:www-data ${DATA_PATH}/nextcloud
+chown www-data:www-data ${DATA_PATH}/nextcloud/data
+chown www-data:www-data ${DATA_PATH}/nextcloud/data/nextcloud.log
+
 # Create secrets
 generate_secret() {
   local secret_path="${DATA_PATH}/secrets/$1"
