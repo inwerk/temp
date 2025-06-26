@@ -13,6 +13,8 @@ mkdir -p ${DATA_PATH}/nextcloud-database
 mkdir -p ${DATA_PATH}/nextcloud-redis
 mkdir -p ${DATA_PATH}/secrets
 
+touch ${LOG_PATH}/nextcloud.log
+
 # Create secrets
 generate_secret() {
   local secret_path="${DATA_PATH}/secrets/$1"
