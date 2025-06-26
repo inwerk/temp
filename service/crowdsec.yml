@@ -9,7 +9,7 @@ services:
     environment:
       COLLECTIONS: "crowdsecurity/http-cve crowdsecurity/http-dos crowdsecurity/base-http-scenarios crowdsecurity/traefik"
       CUSTOM_HOSTNAME: crowdsec
-      BOUNCER_KEY_TRAEFIK: password
+      BOUNCER_KEY_traefik: password
     volumes:
       - ../config/acquis.yml:/etc/crowdsec/acquis.yaml:ro
       - ${DATA_PATH}/crowdsec:/var/lib/crowdsec/data/
