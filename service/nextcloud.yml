@@ -33,7 +33,7 @@ services:
       - MYSQL_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
       - MYSQL_DATABASE=nextcloud
     volumes:
-      - ${VOLUME_PATH}/nextcloud:/var/www/html:rw
+      - ${DATA_PATH}/nextcloud:/var/www/html:rw
     networks:
       - reverse-proxy
       - nextcloud-internal
@@ -64,9 +64,9 @@ services:
       - MARIADB_AUTO_UPGRADE=1
       - MYSQL_INITDB_SKIP_TZINFO=1
     volumes:
-      - ${VOLUME_PATH}/nextcloud-database:/var/lib/mysql:rw
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+      - ${DATA_PATH}/nextcloud-database:/var/lib/mysql:rw
     networks:
       - nextcloud-internal
     command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
@@ -78,7 +78,7 @@ services:
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
     volumes:
-      - ${VOLUME_PATH}/nextcloud-redis:/data
+      - ${DATA_PATH}/nextcloud-redis:/data
     networks:
       - nextcloud-internal
     command: bash -c 'redis-server --requirepass "$$(cat /run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)"'

@@ -46,5 +46,5 @@ providers:
     endpoint: "tcp://docker-socket:2375"
     exposedByDefault: false
   file:
-    directory: /etc/traefik/dynamic
+    filename: /etc/traefik/dynamic.yml
     watch: true
