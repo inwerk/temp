@@ -15,7 +15,7 @@ docker exec -u www-data nextcloud /var/www/html/occ config:system:set maintenanc
 
 # Enable file logging with INFO level
 docker exec -u www-data nextcloud /var/www/html/occ config:system:set log_type --type=string --value='file'
-docker exec -u www-data nextcloud /var/www/html/occ config:system:set logfile --type=string --value='/var/log/nextcloud.log'
+docker exec -u www-data nextcloud /var/www/html/occ config:system:set logfile --type=string --value='nextcloud.log'
 docker exec -u www-data nextcloud /var/www/html/occ config:system:set loglevel --type=integer --value=1
 docker exec -u www-data nextcloud /var/www/html/occ config:system:set logdateformat
 

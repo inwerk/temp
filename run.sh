@@ -13,7 +13,7 @@ mkdir -p ${DATA_PATH}/nextcloud-database
 mkdir -p ${DATA_PATH}/nextcloud-redis
 mkdir -p ${DATA_PATH}/secrets
 
-touch ${LOG_PATH}/nextcloud.log
+touch ${LOG_PATH}/nextcloud.log && chown www-data:www-data ${LOG_PATH}/nextcloud.log
 
 # Create secrets
 generate_secret() {
