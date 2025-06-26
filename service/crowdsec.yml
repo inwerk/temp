@@ -9,7 +9,7 @@ services:
       CUSTOM_HOSTNAME: crowdsec
       BOUNCER_KEY_PLUGIN: password
     volumes:
-      - ../config/acquis.yml:/etc/crowdsec/acquis.yml:ro
+      - ../config/acquis.yml:/etc/crowdsec/acquis.yaml:ro
       - ${DATA_PATH}/crowdsec:/var/lib/crowdsec/data/
       - ${LOG_PATH}/traefik:/var/log/traefik:ro
     networks:
