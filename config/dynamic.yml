@@ -5,3 +5,21 @@ http:
         crowdsec-bouncer-traefik-plugin:
           CrowdsecLapiKey: "password"
           Enabled: true
+    security-headers:
+      headers:
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        frameDeny: true
+        referrerPolicy: "same-origin"
+        sslRedirect: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        customResponseHeaders:
+          X-Content-Type-Options: "nosniff"
+          X-Frame-Options: "SAMEORIGIN"
+          X-XSS-Protection: "1; mode=block"
+          Referrer-Policy: "same-origin"
+          Strict-Transport-Security: "max-age=63072000; includeSubDomains; preload"
+          Content-Security-Policy: "default-src 'self';"
+          Permissions-Policy: "geolocation=(), microphone=()"

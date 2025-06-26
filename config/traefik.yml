@@ -21,11 +21,13 @@ entryPoints:
           scheme: https
       middlewares:
         - crowdsec-bouncer@file
+        - security-headers@file
   websecure:
     address: :443
     http:
       middlewares:
         - crowdsec-bouncer@file
+        - security-headers@file
 certificatesResolvers:
   cloudflare:
     acme:
