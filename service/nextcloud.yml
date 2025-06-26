@@ -52,7 +52,7 @@ services:
       - no-new-privileges=true
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nextcloud"]
       start_period: 10s
       interval: 10s
       timeout: 5s
@@ -63,6 +63,7 @@ services:
       - POSTGRES_USER=nextcloud
       - POSTGRES_PASSWORD_FILE=/run/secrets/NEXTCLOUD_POSTGRES_PASSWORD
       - POSTGRES_DB=nextcloud
+      - PGUSER=postgres
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
