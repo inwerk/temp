@@ -14,7 +14,7 @@ services:
       - ../config/acquis.yml:/etc/crowdsec/acquis.yaml:ro
       - ${DATA_PATH}/crowdsec:/var/lib/crowdsec/data/:rw
       - ${LOG_PATH}/traefik:/var/log/traefik:ro
-      - ${LOG_PATH}/nextcloud.log:/var/log/nextcloud.log:ro
+      - ${DATA_PATH}/nextcloud/data/nextcloud.log:/var/log/nextcloud.log:ro
     networks:
       crowdsec-internal:
         ipv4_address: 172.20.255.254

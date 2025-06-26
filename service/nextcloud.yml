@@ -33,7 +33,6 @@ services:
       - POSTGRES_DB=nextcloud
     volumes:
       - ${DATA_PATH}/nextcloud:/var/www/html:rw
-      - ${LOG_PATH}/nextcloud.log:/var/log/nextcloud.log:rw
     networks:
       - reverse-proxy
       - nextcloud-internal
