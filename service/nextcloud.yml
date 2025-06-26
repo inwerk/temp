@@ -3,6 +3,8 @@ services:
     image: nextcloud:latest
     container_name: "nextcloud"
     hostname: "nextcloud"
+    security_opt:
+      - no-new-privileges=true
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -46,6 +48,8 @@ services:
     image: mariadb:11.4
     container_name: "nextcloud-database"
     hostname: "mysql"
+    security_opt:
+      - no-new-privileges=true
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "healthcheck.sh --connect --innodb_initialized"]
@@ -74,6 +78,8 @@ services:
     image: redis:latest
     container_name: "nextcloud-redis"
     hostname: "redis"
+    security_opt:
+      - no-new-privileges=true
     restart: unless-stopped
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
