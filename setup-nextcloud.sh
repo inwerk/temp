@@ -13,6 +13,12 @@ docker exec -u www-data nextcloud /var/www/html/occ background:cron
 # Run background jobs between 01:00am UTC and 05:00am UTC.
 docker exec -u www-data nextcloud /var/www/html/occ config:system:set maintenance_window_start --type=integer --value=1
 
+# Enable file logging with INFO level
+docker exec -u www-data nextcloud /var/www/html/occ config:system:set log_type --type=string --value='file'
+docker exec -u www-data nextcloud /var/www/html/occ config:system:set logfile --type=string --value='/var/www/html/data/nextcloud.log'
+docker exec -u www-data nextcloud /var/www/html/occ config:system:set loglevel --type=integer --value=1
+docker exec -u www-data nextcloud /var/www/html/occ config:system:set logdateformat
+
 # Set default language to German.
 docker exec -u www-data nextcloud /var/www/html/occ config:system:set default_language --type=string --value='de'
 

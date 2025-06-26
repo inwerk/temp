@@ -6,6 +6,11 @@ labels:
   type: traefik
 ---
 filenames:
+ - /var/log/nextcloud.log
+labels:
+  type: nextcloud
+---
+filenames:
   - /var/log/auth.log
   - /var/log/syslog
 labels:
