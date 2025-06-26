@@ -22,7 +22,7 @@ services:
     secrets:
       - NEXTCLOUD_ADMIN_PASSWORD
       - NEXTCLOUD_REDIS_HOST_PASSWORD
-      - NEXTCLOUD_MYSQL_PASSWORD
+      - NEXTCLOUD_POSTGRES_PASSWORD
     environment:
       - TRUSTED_PROXIES=172.18.255.254/16
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
@@ -30,10 +30,10 @@ services:
       - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/NEXTCLOUD_ADMIN_PASSWORD
       - REDIS_HOST=redis
       - REDIS_HOST_PASSWORD_FILE=/run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
-      - MYSQL_HOST=mysql
-      - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
-      - MYSQL_DATABASE=nextcloud
+      - POSTGRES_HOST=nextcloud-database
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD_FILE=/run/secrets/NEXTCLOUD_POSTGRES_PASSWORD
+      - POSTGRES_DB=nextcloud
     volumes:
       - ${DATA_PATH}/nextcloud:/var/www/html:rw
     networks:
@@ -45,32 +45,28 @@ services:
       nextcloud-redis:
         condition: service_started
   nextcloud-database:
-    image: mariadb:11.4
+    image: postgres:latest
     container_name: "nextcloud-database"
-    hostname: "mysql"
+    hostname: "nextcloud-database"
     security_opt:
       - no-new-privileges=true
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "healthcheck.sh --connect --innodb_initialized"]
+      test: ["CMD-SHELL", "pg_isready"]
       start_period: 10s
       interval: 10s
       timeout: 5s
       retries: 5
     secrets:
-      - NEXTCLOUD_MYSQL_ROOT_PASSWORD
-      - NEXTCLOUD_MYSQL_PASSWORD
+      - NEXTCLOUD_POSTGRES_PASSWORD
     environment:
-      - MARIADB_ROOT_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_ROOT_PASSWORD
-      - MARIADB_USER=nextcloud
-      - MARIADB_PASSWORD_FILE=/run/secrets/NEXTCLOUD_MYSQL_PASSWORD
-      - MARIADB_DATABASE=nextcloud
-      - MARIADB_AUTO_UPGRADE=1
-      - MYSQL_INITDB_SKIP_TZINFO=1
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD_FILE=/run/secrets/NEXTCLOUD_POSTGRES_PASSWORD
+      - POSTGRES_DB=nextcloud
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - ${DATA_PATH}/nextcloud-database:/var/lib/mysql:rw
+      - ${DATA_PATH}/nextcloud-database:/var/lib/postgresql/data:rw
     networks:
       - nextcloud-internal
     command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
@@ -91,9 +87,7 @@ services:
 secrets:
   NEXTCLOUD_ADMIN_PASSWORD:
     file: ${DATA_PATH}/secrets/NEXTCLOUD_ADMIN_PASSWORD
-  NEXTCLOUD_MYSQL_ROOT_PASSWORD:
-    file: ${DATA_PATH}/secrets/NEXTCLOUD_MYSQL_ROOT_PASSWORD
-  NEXTCLOUD_MYSQL_PASSWORD:
-    file: ${DATA_PATH}/secrets/NEXTCLOUD_MYSQL_PASSWORD
+  NEXTCLOUD_POSTGRES_PASSWORD:
+    file: ${DATA_PATH}/secrets/NEXTCLOUD_POSTGRES_PASSWORD
   NEXTCLOUD_REDIS_HOST_PASSWORD:
     file: ${DATA_PATH}/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD

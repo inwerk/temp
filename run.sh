@@ -22,8 +22,7 @@ generate_secret() {
 }
 
 generate_secret "NEXTCLOUD_ADMIN_PASSWORD"
-generate_secret "NEXTCLOUD_MYSQL_ROOT_PASSWORD"
-generate_secret "NEXTCLOUD_MYSQL_PASSWORD"
+generate_secret "NEXTCLOUD_POSTGRES_PASSWORD"
 generate_secret "NEXTCLOUD_REDIS_HOST_PASSWORD"
 
 docker compose up -d
