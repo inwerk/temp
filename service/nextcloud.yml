@@ -70,7 +70,6 @@ services:
       - ${DATA_PATH}/nextcloud-database:/var/lib/postgresql/data:rw
     networks:
       - nextcloud-internal
-    command: --transaction-isolation=READ-COMMITTED --log-bin=ROW --skip-innodb-read-only-compressed
   nextcloud-redis:
     image: redis:latest
     container_name: "nextcloud-redis"
