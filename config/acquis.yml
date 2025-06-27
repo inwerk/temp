@@ -7,7 +7,7 @@ labels:
   type: traefik
 ---
 filenames:
- - /var/log/nextcloud.log
+ - /var/log/nextcloud/nextcloud.log
 labels:
   type: nextcloud
 ---

@@ -23,6 +23,7 @@ services:
       - ../config/nextcloud.env
     volumes:
       - ${DATA_PATH}/nextcloud:/var/www/html:rw
+      - ${LOG_PATH}/nextcloud:/var/log/nextcloud:rw
       - ../scripts/nextcloud-post-installation.sh:/docker-entrypoint-hooks.d/post-installation/nextcloud-post-installation.sh:ro
     networks:
       - reverse-proxy

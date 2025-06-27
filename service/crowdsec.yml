@@ -14,7 +14,7 @@ services:
       - ../config/acquis.yml:/etc/crowdsec/acquis.yaml:ro
       - ${DATA_PATH}/crowdsec:/var/lib/crowdsec/data/:rw
       - ${LOG_PATH}/traefik:/var/log/traefik:ro
-      - ${DATA_PATH}/nextcloud/data/nextcloud.log:/var/log/nextcloud.log:ro
+      - ${LOG_PATH}/nextcloud:/var/log/nextcloud:ro
       - ${LOG_PATH}/vaultwarden:/var/log/vaultwarden:ro
     networks:
       crowdsec-internal:
