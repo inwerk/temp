@@ -5,6 +5,13 @@ set +a
 
 docker compose down
 
+# Paths for persistent volumes
+export DATA_PATH=".docker/data"
+export SECRETS_PATH=".docker/secrets"
+export LOG_PATH=".docker/logs"
+
+mkdir -p .docker
+
 mkdir -p ${DATA_PATH}
 mkdir -p ${DATA_PATH}/crowdsec
 mkdir -p ${DATA_PATH}/letsencrypt
@@ -13,12 +20,16 @@ mkdir -p ${DATA_PATH}/nextcloud-database
 mkdir -p ${DATA_PATH}/nextcloud-redis
 mkdir -p ${DATA_PATH}/secrets
 
-# fix to mount nextcloud.log
+mkdir -p ${LOG_PATH}
 mkdir -p ${LOG_PATH}/nextcloud
+
+# fix to mount nextcloud.log
 chown www-data:www-data ${LOG_PATH}/nextcloud
 
 chmod +x scripts/nextcloud-post-installation.sh
 chmod +x scripts/vaultwarden-entrypoint.sh
+
+mkdir -p ${SECRETS_PATH}
 
 # Create secrets
 generate_secret() {
