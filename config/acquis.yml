@@ -1,6 +1,7 @@
 ---
 filenames:
   - /var/log/traefik/access.log
+  - /var/log/traefik/traefik.log
 poll_without_inotify: true
 labels:
   type: traefik
@@ -11,7 +12,7 @@ labels:
   type: nextcloud
 ---
 filenames:
- - /var/log/vaultwarden.log
+ - /var/log/vaultwarden/vaultwarden.log
 labels:
   type: vaultwarden
 ---
