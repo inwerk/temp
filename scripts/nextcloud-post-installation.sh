@@ -10,7 +10,7 @@
 # Set log file location and format
 /var/www/html/occ config:system:set log_type --type=string --value='file'
 /var/www/html/occ config:system:set logfile --type=string --value='/var/log/nextcloud/nextcloud.log'
-/var/www/html/occ config:system:set loglevel --type=integer --value='3'
+/var/www/html/occ config:system:set loglevel --type=integer --value='1'
 /var/www/html/occ config:system:set logdateformat --type=string --value='c'
 
 # Run background jobs between 01:00am UTC and 05:00am UTC.
