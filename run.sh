@@ -20,9 +20,6 @@ chown www-data:www-data ${DATA_PATH}/nextcloud
 chown www-data:www-data ${DATA_PATH}/nextcloud/data
 chown www-data:www-data ${DATA_PATH}/nextcloud/data/nextcloud.log
 
-chmod +x scripts/nextcloud-post-installation.sh
-chmod +x scripts/vaultwarden-entrypoint.sh
-
 # Create secrets
 generate_secret() {
   local secret_path="${DATA_PATH}/secrets/$1"
