@@ -2,7 +2,6 @@ services:
   nextcloud:
     image: nextcloud:latest
     container_name: "nextcloud"
-    hostname: "nextcloud"
     security_opt:
       - no-new-privileges=true
     restart: unless-stopped
@@ -20,28 +19,8 @@ services:
       - NEXTCLOUD_ADMIN_PASSWORD
       - NEXTCLOUD_REDIS_HOST_PASSWORD
       - NEXTCLOUD_POSTGRES_PASSWORD
-    environment:
-      - APACHE_DISABLE_REWRITE_IP=1
-      - TRUSTED_PROXIES=172.18.255.254/16
-      - OVERWRITEHOST=cloud.${DOMAIN}
-      - OVERWRITECLIURL=https://cloud.${DOMAIN}
-      - OVERWRITEPROTOCOL=https
-      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
-      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
-      - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/NEXTCLOUD_ADMIN_PASSWORD
-      - REDIS_HOST=redis
-      - REDIS_HOST_PASSWORD_FILE=/run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
-      - POSTGRES_HOST=nextcloud-database
-      - POSTGRES_USER=nextcloud
-      - POSTGRES_PASSWORD_FILE=/run/secrets/NEXTCLOUD_POSTGRES_PASSWORD
-      - POSTGRES_DB=nextcloud
-      - SMTP_HOST=${SMTP_HOST}
-      - SMTP_PORT=${SMTP_PORT}
-      - SMTP_SECURE=${SMTP_SECURITY}
-      - SMTP_NAME=${SMTP_USERNAME}
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
-      - MAIL_FROM_ADDRESS=${SMTP_FROM}
-      - MAIL_DOMAIN=${SMTP_FROM_DOMAIN}
+    env_file:
+      - ../config/nextcloud.env
     volumes:
       - ${DATA_PATH}/nextcloud:/var/www/html:rw
       - ../scripts:/docker-entrypoint-hooks.d/post-installation:ro
@@ -92,6 +71,26 @@ services:
     networks:
       - nextcloud-internal
     command: bash -c 'redis-server --requirepass "$$(cat /run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)"'
+  nextcloud-cron:
+    image: nextcloud:latest
+    container_name: "nextcloud-cron"
+    security_opt:
+      - no-new-privileges=true
+    restart: unless-stopped
+    secrets:
+      - NEXTCLOUD_ADMIN_PASSWORD
+      - NEXTCLOUD_REDIS_HOST_PASSWORD
+      - NEXTCLOUD_POSTGRES_PASSWORD
+    env_file:
+      - ../config/nextcloud.env
+    volumes:
+      - ${DATA_PATH}/nextcloud:/var/www/html:rw
+    entrypoint: /cron.sh
+    networks:
+      - nextcloud-internal
+    depends_on:
+      nextcloud:
+        condition: service_started
 secrets:
   NEXTCLOUD_ADMIN_PASSWORD:
     file: ${DATA_PATH}/secrets/NEXTCLOUD_ADMIN_PASSWORD
