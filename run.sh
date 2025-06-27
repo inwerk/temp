@@ -14,11 +14,8 @@ mkdir -p ${DATA_PATH}/nextcloud-redis
 mkdir -p ${DATA_PATH}/secrets
 
 # fix to mount nextcloud.log
-mkdir -p ${DATA_PATH}/nextcloud/data
-touch ${DATA_PATH}/nextcloud/data/nextcloud.log
-chown www-data:www-data ${DATA_PATH}/nextcloud
-chown www-data:www-data ${DATA_PATH}/nextcloud/data
-chown www-data:www-data ${DATA_PATH}/nextcloud/data/nextcloud.log
+mkdir -p ${LOG_PATH}/nextcloud
+chown www-data:www-data ${LOG_PATH}/nextcloud
 
 chmod +x scripts/nextcloud-post-installation.sh
 chmod +x scripts/vaultwarden-entrypoint.sh

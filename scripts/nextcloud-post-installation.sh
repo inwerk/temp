@@ -1,9 +1,3 @@
-# Set log file location and format
-/var/www/html/occ config:system:set log_type --type=string --value='file'
-/var/www/html/occ config:system:set logfile --type=string --value='/var/log/nextcloud/nextcloud.log'
-/var/www/html/occ config:system:set loglevel --type=integer --value='3'
-/var/www/html/occ config:system:set logdateformat --type=string --value='c'
-
 # Add missing indices to the database.
 /var/www/html/occ db:add-missing-indices
 
@@ -12,6 +6,12 @@
 
 # Set mode for background jobs to 'cron'.
 /var/www/html/occ background:cron
+
+# Set log file location and format
+/var/www/html/occ config:system:set log_type --type=string --value='file'
+/var/www/html/occ config:system:set logfile --type=string --value='/var/log/nextcloud/nextcloud.log'
+/var/www/html/occ config:system:set loglevel --type=integer --value='3'
+/var/www/html/occ config:system:set logdateformat --type=string --value='c'
 
 # Run background jobs between 01:00am UTC and 05:00am UTC.
 /var/www/html/occ config:system:set maintenance_window_start --type=integer --value=1
