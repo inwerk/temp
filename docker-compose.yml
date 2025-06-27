@@ -4,3 +4,4 @@ include:
   - service/nextcloud.yml
   - service/nginx.yml
   - service/traefik.yml
+  - service/vaultwarden.yml

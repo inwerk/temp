@@ -30,3 +30,11 @@ networks:
       config:
         - subnet: 172.21.0.0/16
     internal: true
+  vaultwarden-internal:
+    name: vaultwarden-internal
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/16
+    internal: true
