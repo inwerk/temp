@@ -3,8 +3,6 @@ set -a
 source .env
 set +a
 
-docker compose down
-
 # Paths for persistent volumes
 export DATA_PATH=".docker/data"
 export SECRETS_PATH=".docker/secrets"
@@ -33,7 +31,7 @@ mkdir -p ${SECRETS_PATH}
 
 # Create secrets
 generate_secret() {
-  local secret_path="${DATA_PATH}/secrets/$1"
+  local secret_path="${SECRETS_PATH}/secrets/$1"
   if [ ! -f "$secret_path" ]; then
     openssl rand -base64 32 | tr -dc _A-Z-a-z-0-9 > "$secret_path"
   fi
