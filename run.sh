@@ -20,7 +20,7 @@ chown www-data:www-data ${DATA_PATH}/nextcloud
 chown www-data:www-data ${DATA_PATH}/nextcloud/data
 chown www-data:www-data ${DATA_PATH}/nextcloud/data/nextcloud.log
 
-chmod +x scripts/nextcloud-post-installation.sh
+chmod a+x scripts/nextcloud-post-installation.sh
 
 # Create secrets
 generate_secret() {
