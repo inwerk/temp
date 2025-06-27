@@ -11,6 +11,11 @@ labels:
   type: nextcloud
 ---
 filenames:
+ - /var/log/vaultwarden.log
+labels:
+  type: vaultwarden
+---
+filenames:
   - /var/log/auth.log
   - /var/log/syslog
 labels:

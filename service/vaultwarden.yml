@@ -26,8 +26,10 @@ services:
       - SMTP_FROM=${SMTP_FROM}@${SMTP_FROM_DOMAIN}
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - LOG_FILE=/var/log/vaultwarden.log
     volumes:
       - ${DATA_PATH}/vaultwarden:/data:rw
+      - ${LOG_PATH}/vaultwarden.log:/var/log/vaultwarden.log:rw
       - ../scripts/vaultwarden-entrypoint.sh:/entrypoint.sh:ro
     networks:
       - reverse-proxy
