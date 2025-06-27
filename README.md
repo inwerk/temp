@@ -25,7 +25,7 @@ TODO
 | [Gitea](https://github.com/go-gitea/gitea)                      | Git repository management              | ❌     |
 | [Nextcloud](https://github.com/nextcloud/docker)                | Cloud storage and file synchronization | ✅     |
 | [traefik](https://github.com/traefik/traefik)                   | Reverse proxy                          | ✅     |
-| [Vaultwarden](https://github.com/dani-garcia/vaultwarden)       | Password manager                       | ❌     |
+| [Vaultwarden](https://github.com/dani-garcia/vaultwarden)       | Password manager                       | ✅     |
 
 ✅ Implemented.
 
