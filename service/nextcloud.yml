@@ -21,6 +21,7 @@ services:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
       - NEXTCLOUD_POSTGRES_PASSWORD
     environment:
+      - APACHE_DISABLE_REWRITE_IP=1
       - TRUSTED_PROXIES=172.18.255.254/16
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${DOMAIN}
       - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
@@ -31,6 +32,13 @@ services:
       - POSTGRES_USER=nextcloud
       - POSTGRES_PASSWORD_FILE=/run/secrets/NEXTCLOUD_POSTGRES_PASSWORD
       - POSTGRES_DB=nextcloud
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_SECURE=${SMTP_SECURITY}
+      - SMTP_NAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - MAIL_FROM_ADDRESS=${SMTP_FROM}
+      - MAIL_DOMAIN=${SMTP_FROM_DOMAIN}
     volumes:
       - ${DATA_PATH}/nextcloud:/var/www/html:rw
     networks:
