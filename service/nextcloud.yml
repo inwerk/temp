@@ -44,7 +44,7 @@ services:
       - MAIL_DOMAIN=${SMTP_FROM_DOMAIN}
     volumes:
       - ${DATA_PATH}/nextcloud:/var/www/html:rw
-      - ./scripts:/docker-entrypoint-hooks.d/post-installation:ro
+      - ../scripts:/docker-entrypoint-hooks.d/post-installation:ro
     networks:
       - reverse-proxy
       - nextcloud-internal
