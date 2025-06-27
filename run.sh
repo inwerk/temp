@@ -21,6 +21,7 @@ chown www-data:www-data ${DATA_PATH}/nextcloud/data
 chown www-data:www-data ${DATA_PATH}/nextcloud/data/nextcloud.log
 
 chmod +x scripts/nextcloud-post-installation.sh
+chmod +x scripts/vaultwarden-entrypoint.sh
 
 # Create secrets
 generate_secret() {
@@ -33,5 +34,7 @@ generate_secret() {
 generate_secret "NEXTCLOUD_ADMIN_PASSWORD"
 generate_secret "NEXTCLOUD_POSTGRES_PASSWORD"
 generate_secret "NEXTCLOUD_REDIS_HOST_PASSWORD"
+generate_secret "VAULTWARDEN_ADMIN_TOKEN"
+generate_secret "VAULTWARDEN_POSTGRES_PASSWORD"
 
 docker compose up -d

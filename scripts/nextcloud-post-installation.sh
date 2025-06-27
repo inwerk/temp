@@ -45,6 +45,7 @@
 
 # Download and install Nextcloud apps.
 /var/www/html/occ app:install calendar
+/var/www/html/occ app:install contacts
 
 # Disable redundant Nextcloud apps.
 /var/www/html/occ app:disable activity

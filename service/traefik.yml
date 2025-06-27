@@ -1,7 +1,7 @@
 services:
   traefik:
     image: traefik:v3.3.4
-    container_name: "traefik"
+    container_name: traefik
     security_opt:
       - no-new-privileges=true
     restart: unless-stopped
@@ -30,7 +30,7 @@ services:
       - "--certificatesresolvers.cloudflare.acme.email=${EMAIL}"
   docker-socket:
     image: lscr.io/linuxserver/socket-proxy:latest
-    container_name: "docker-socket"
+    container_name: docker-socket
     security_opt:
       - no-new-privileges=true
     restart: unless-stopped

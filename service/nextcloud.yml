@@ -1,7 +1,7 @@
 services:
   nextcloud:
     image: nextcloud:latest
-    container_name: "nextcloud"
+    container_name: nextcloud
     security_opt:
       - no-new-privileges=true
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
       - ../config/nextcloud.env
     volumes:
       - ${DATA_PATH}/nextcloud:/var/www/html:rw
-      - ../scripts:/docker-entrypoint-hooks.d/post-installation:ro
+      - ../scripts/nextcloud-post-installation.sh:/docker-entrypoint-hooks.d/post-installation/nextcloud-post-installation.sh:ro
     networks:
       - reverse-proxy
       - nextcloud-internal
@@ -34,8 +34,8 @@ services:
         condition: service_started
   nextcloud-database:
     image: postgres:latest
-    container_name: "nextcloud-database"
-    hostname: "nextcloud-database"
+    container_name: nextcloud-database
+    hostname: nextcloud-database
     security_opt:
       - no-new-privileges=true
     restart: unless-stopped
@@ -59,8 +59,8 @@ services:
       - nextcloud-internal
   nextcloud-redis:
     image: redis:latest
-    container_name: "nextcloud-redis"
-    hostname: "redis"
+    container_name: nextcloud-redis
+    hostname: redis
     security_opt:
       - no-new-privileges=true
     restart: unless-stopped
@@ -73,7 +73,7 @@ services:
     command: bash -c 'redis-server --requirepass "$$(cat /run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)"'
   nextcloud-cron:
     image: nextcloud:latest
-    container_name: "nextcloud-cron"
+    container_name: nextcloud-cron
     security_opt:
       - no-new-privileges=true
     restart: unless-stopped

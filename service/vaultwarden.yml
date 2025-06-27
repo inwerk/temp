@@ -1,0 +1,67 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vaultwarden.entrypoints=websecure"
+      - "traefik.http.routers.vaultwarden.rule=Host(`vault.${DOMAIN}`)"
+      - "traefik.http.routers.vaultwarden.tls=true"
+      - "traefik.http.routers.vaultwarden.tls.certresolver=cloudflare"
+      - "traefik.http.routers.vaultwarden.service=vaultwarden"
+      - "traefik.http.services.vaultwarden.loadbalancer.server.port=80"
+      - "traefik.http.services.vaultwarden.loadbalancer.passHostHeader=true"
+      - "traefik.docker.network=reverse-proxy"
+    secrets:
+      - VAULTWARDEN_ADMIN_TOKEN
+      - VAULTWARDEN_POSTGRES_PASSWORD
+    environment:
+      - DOMAIN=https://vault.${DOMAIN}
+      - ADMIN_TOKEN_FILE=/run/secrets/VAULTWARDEN_ADMIN_TOKEN
+      - SIGNUPS_ALLOWED=true
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_SECURITY=${SMTP_SECURITY}
+      - SMTP_FROM=${SMTP_FROM}@${SMTP_FROM_DOMAIN}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+    volumes:
+      - ${DATA_PATH}/vaultwarden:/data:rw
+      - ../scripts/vaultwarden-entrypoint.sh:/entrypoint.sh:ro
+    networks:
+      - reverse-proxy
+      - vaultwarden-internal
+    depends_on:
+      vaultwarden-database:
+        condition: service_healthy
+  vaultwarden-database:
+    image: postgres:latest
+    container_name: vaultwarden-database
+    hostname: vaultwarden-database
+    security_opt:
+      - no-new-privileges=true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vaultwarden -d vaultwarden"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    secrets:
+      - VAULTWARDEN_POSTGRES_PASSWORD
+    environment:
+      - POSTGRES_USER=vaultwarden
+      - POSTGRES_PASSWORD_FILE=/run/secrets/VAULTWARDEN_POSTGRES_PASSWORD
+      - POSTGRES_DB=vaultwarden
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ${DATA_PATH}/vaultwarden-database:/var/lib/postgresql/data:rw
+    networks:
+      - vaultwarden-internal
+secrets:
+  VAULTWARDEN_ADMIN_TOKEN:
+    file: ${DATA_PATH}/secrets/VAULTWARDEN_ADMIN_TOKEN
+  VAULTWARDEN_POSTGRES_PASSWORD:
+    file: ${DATA_PATH}/secrets/VAULTWARDEN_POSTGRES_PASSWORD
