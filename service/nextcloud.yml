@@ -40,7 +40,7 @@ services:
         condition: service_started
   nextcloud-db-init:
     image: postgres:latest
-    container_name: nextcloud-db
+    container_name: nextcloud-db-init
     security_opt:
       - no-new-privileges=true
     volumes:
