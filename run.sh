@@ -23,4 +23,10 @@ generate_secret "NEXTCLOUD_REDIS_HOST_PASSWORD"
 generate_secret "VAULTWARDEN_ADMIN_TOKEN"
 generate_secret "VAULTWARDEN_POSTGRES_PASSWORD"
 
+# Workaround for https://github.com/nextcloud/docker/issues/1494
+touch .docker/remoteip.conf && chown 1000:1000 .docker/remoteip.conf
+
+# Workaround for https://github.com/nextcloud/docker/issues/763
+touch .docker/redis-session.ini && chown 1000:1000 .docker/redis-session.ini
+
 docker compose up -d
