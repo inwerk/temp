@@ -1,4 +1,3 @@
----
 - filenames:
     - /var/log/traefik/access.log
   poll_without_inotify: true
