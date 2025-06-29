@@ -27,7 +27,7 @@ services:
       - nextcloud-logs:/var/log/nextcloud:rw
       - ../scripts/nextcloud-post-installation.sh:/docker-entrypoint-hooks.d/post-installation/nextcloud-post-installation.sh:ro
       # https://github.com/nextcloud/docker/issues/1494
-      - ../.docker/remoteip.conf:/etc/apache2/conf-enabled/remoteip.conf:ro
+      - ../.docker/remoteip.conf:/etc/apache2/conf-enabled/remoteip.conf:rw
       # https://github.com/nextcloud/docker/issues/763
       - ../.docker/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:rw
     networks:
