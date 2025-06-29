@@ -10,8 +10,6 @@ services:
       COLLECTIONS: "crowdsecurity/http-cve crowdsecurity/http-dos crowdsecurity/base-http-scenarios crowdsecurity/traefik crowdsecurity/nextcloud Dominic-Wagner/vaultwarden"
       CUSTOM_HOSTNAME: crowdsec
       BOUNCER_KEY_traefik: password
-      UID: 1000
-      GID: 1000
     volumes:
       - ../config/acquis.yml:/etc/crowdsec/acquis.yaml:ro
       - crowdsec-data:/var/lib/crowdsec/data/:rw
