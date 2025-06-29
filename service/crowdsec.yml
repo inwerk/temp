@@ -19,7 +19,7 @@ services:
       - vaultwarden-logs:/var/log/vaultwarden:ro
     networks:
       crowdsec-internal:
-        ipv4_address: 172.20.255.254
+        ipv4_address: 172.29.255.254
 volumes:
   crowdsec-data:
   nextcloud-logs:

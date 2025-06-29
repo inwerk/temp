@@ -5,7 +5,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.18.0.0/16
+        - subnet: 172.31.0.0/16
     attachable: true
   socket-proxy:
     name: socket-proxy
@@ -13,7 +13,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.19.0.0/16
+        - subnet: 172.30.0.0/16
     internal: true
   crowdsec-internal:
     name: crowdsec-internal
@@ -21,14 +21,14 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.20.0.0/16
+        - subnet: 172.29.0.0/16
   nextcloud-internal:
     name: nextcloud-internal
     driver: bridge
     ipam:
       driver: default
       config:
-        - subnet: 172.21.0.0/16
+        - subnet: 172.28.0.0/16
     internal: true
   vaultwarden-internal:
     name: vaultwarden-internal
@@ -36,5 +36,5 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.22.0.0/16
+        - subnet: 172.27.0.0/16
     internal: true
