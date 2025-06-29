@@ -22,5 +22,8 @@ services:
 volumes:
   crowdsec-data:
   nextcloud-logs:
+    external: true
   traefik-logs:
+    external: true
   vaultwarden-logs:
+    external: true

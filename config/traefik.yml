@@ -3,8 +3,6 @@ global:
   sendAnonymousUsage: false
 log:
   level: DEBUG
-  filePath: "/var/log/traefik/traefik.log"
-  format: json
 accessLog:
   filePath: "/var/log/traefik/access.log"
   format: json
