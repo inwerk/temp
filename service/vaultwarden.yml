@@ -30,7 +30,7 @@ services:
       - SMTP_PASSWORD=${SMTP_PASSWORD}
       - LOG_FILE=/var/log/vaultwarden/vaultwarden.log
     volumes:
-      - vaultwarden-data:/data:rw
+      - vaultwarden:/data:rw
       - vaultwarden-logs:/var/log/vaultwarden:rw
       - ../scripts/vaultwarden-entrypoint.sh:/entrypoint.sh:ro
     networks:
@@ -47,7 +47,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - vaultwarden-db-data:/var/lib/postgresql/data:rw
+      - vaultwarden-db:/var/lib/postgresql/data:rw
     entrypoint:
       - sh
       - -c
@@ -77,7 +77,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - vaultwarden-db-data:/var/lib/postgresql/data:rw
+      - vaultwarden-db:/var/lib/postgresql/data:rw
     networks:
       - vaultwarden-internal
     depends_on:
@@ -89,6 +89,6 @@ secrets:
   VAULTWARDEN_POSTGRES_PASSWORD:
     file: ../.docker/secrets/VAULTWARDEN_POSTGRES_PASSWORD
 volumes:
-  vaultwarden-data:
+  vaultwarden:
+  vaultwarden-db:
   vaultwarden-logs:
-  vaultwarden-db-data:

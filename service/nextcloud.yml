@@ -23,7 +23,7 @@ services:
     env_file:
       - ../config/nextcloud.env
     volumes:
-      - nextcloud-data:/var/www/html:rw
+      - nextcloud:/var/www/html:rw
       - nextcloud-logs:/var/log/nextcloud:rw
       - ../scripts/nextcloud-post-installation.sh:/docker-entrypoint-hooks.d/post-installation/nextcloud-post-installation.sh:ro
       # https://github.com/nextcloud/docker/issues/1494
@@ -52,7 +52,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - nextcloud-db-data:/var/lib/postgresql/data:rw
+      - nextcloud-db:/var/lib/postgresql/data:rw
     entrypoint:
       - sh
       - -c
@@ -82,7 +82,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - nextcloud-db-data:/var/lib/postgresql/data:rw
+      - nextcloud-db:/var/lib/postgresql/data:rw
     networks:
       - nextcloud-internal
     depends_on:
@@ -99,7 +99,7 @@ services:
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
     volumes:
-      - nextcloud-redis-data:/data
+      - nextcloud-redis:/data
     networks:
       - nextcloud-internal
     command: bash -c 'redis-server --requirepass "$$(cat /run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)"'
@@ -117,7 +117,7 @@ services:
     env_file:
       - ../config/nextcloud.env
     volumes:
-      - nextcloud-data:/var/www/html:rw
+      - nextcloud:/var/www/html:rw
     entrypoint: /cron.sh
     networks:
       - nextcloud-internal
@@ -132,7 +132,7 @@ secrets:
   NEXTCLOUD_REDIS_HOST_PASSWORD:
     file: ../.docker/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
 volumes:
-  nextcloud-data:
+  nextcloud:
+  nextcloud-db:
   nextcloud-logs:
-  nextcloud-db-data:
-  nextcloud-redis-data:
+  nextcloud-redis:
