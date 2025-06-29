@@ -113,7 +113,6 @@ services:
     image: nextcloud:latest
     container_name: nextcloud-cron
     restart: unless-stopped
-    user: "1000:1000"
     security_opt:
       - no-new-privileges=true
     secrets:
@@ -124,6 +123,7 @@ services:
       - ../config/nextcloud.env
     volumes:
       - nextcloud:/var/www/html:rw
+      - nextcloud-logs:/var/log/nextcloud:rw
     entrypoint: /cron.sh
     networks:
       - nextcloud-internal
