@@ -8,7 +8,7 @@ labels:
 filenames:
  - /var/log/nextcloud/nextcloud.log
 labels:
-  type: nextcloud
+  type: Nextcloud
 ---
 filenames:
  - /var/log/vaultwarden/vaultwarden.log
