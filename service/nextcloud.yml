@@ -3,7 +3,7 @@ services:
     image: nextcloud:latest
     container_name: nextcloud
     restart: unless-stopped
-    user: "1000:1000"
+    user: "2000:2000"
     security_opt:
       - no-new-privileges=true
     labels:
