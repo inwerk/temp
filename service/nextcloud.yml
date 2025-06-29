@@ -38,6 +38,20 @@ services:
         condition: service_healthy
       nextcloud-redis:
         condition: service_started
+  nextcloud-db-init:
+    image: postgres:latest
+    container_name: nextcloud-db
+    security_opt:
+      - no-new-privileges=true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - nextcloud-db-data:/var/lib/postgresql/data:rw
+    entrypoint:
+      - sh
+      - -c
+      - |
+        chown -R 1000:1000 /var/lib/postgresql/data
   nextcloud-db:
     image: postgres:latest
     container_name: nextcloud-db
@@ -64,6 +78,9 @@ services:
       - nextcloud-db-data:/var/lib/postgresql/data:rw
     networks:
       - nextcloud-internal
+    depends_on:
+      nextcloud-db-init:
+        condition: service_completed_successfully
   nextcloud-redis:
     image: redis:latest
     container_name: nextcloud-redis
