@@ -2,7 +2,9 @@ services:
   vaultwarden:
     image: vaultwarden/server:latest
     container_name: vaultwarden
-    restart: always
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.vaultwarden.entrypoints=websecure"
@@ -35,15 +37,15 @@ services:
       - reverse-proxy
       - vaultwarden-internal
     depends_on:
-      vaultwarden-database:
+      vaultwarden-db:
         condition: service_healthy
-  vaultwarden-database:
+  vaultwarden-db:
     image: postgres:latest
-    container_name: vaultwarden-database
-    hostname: vaultwarden-database
+    container_name: vaultwarden-db
+    hostname: vaultwarden-db
+    restart: unless-stopped
     security_opt:
       - no-new-privileges=true
-    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U vaultwarden -d vaultwarden"]
       start_period: 10s

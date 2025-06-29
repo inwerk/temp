@@ -2,9 +2,10 @@ services:
   nextcloud:
     image: nextcloud:latest
     container_name: nextcloud
+    restart: unless-stopped
+    user: "1000:1000"
     security_opt:
       - no-new-privileges=true
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud.entrypoints=websecure"
@@ -29,14 +30,14 @@ services:
       - reverse-proxy
       - nextcloud-internal
     depends_on:
-      nextcloud-database:
+      nextcloud-db:
         condition: service_healthy
       nextcloud-redis:
         condition: service_started
-  nextcloud-database:
+  nextcloud-db:
     image: postgres:latest
-    container_name: nextcloud-database
-    hostname: nextcloud-database
+    container_name: nextcloud-db
+    hostname: nextcloud-db
     security_opt:
       - no-new-privileges=true
     restart: unless-stopped
@@ -62,9 +63,10 @@ services:
     image: redis:latest
     container_name: nextcloud-redis
     hostname: redis
+    restart: unless-stopped
+    user: "1000:1000"
     security_opt:
       - no-new-privileges=true
-    restart: unless-stopped
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
     volumes:

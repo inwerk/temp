@@ -3,9 +3,10 @@ services:
     image: crowdsecurity/crowdsec
     container_name: "crowdsec"
     hostname: "crowdsec"
+    restart: unless-stopped
+    user: "1000:1000"
     security_opt:
       - no-new-privileges=true
-    restart: unless-stopped
     environment:
       COLLECTIONS: "crowdsecurity/http-cve crowdsecurity/http-dos crowdsecurity/base-http-scenarios crowdsecurity/traefik crowdsecurity/nextcloud Dominic-Wagner/vaultwarden"
       CUSTOM_HOSTNAME: crowdsec

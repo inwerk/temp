@@ -2,9 +2,9 @@ services:
   traefik:
     image: traefik:v3.3.4
     container_name: traefik
+    restart: unless-stopped
     security_opt:
       - no-new-privileges=true
-    restart: unless-stopped
     environment:
       - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
     volumes:
@@ -31,9 +31,9 @@ services:
   docker-socket:
     image: lscr.io/linuxserver/socket-proxy:latest
     container_name: docker-socket
+    restart: unless-stopped
     security_opt:
       - no-new-privileges=true
-    restart: unless-stopped
     environment:
       - ALLOW_START=0
       - ALLOW_STOP=0
