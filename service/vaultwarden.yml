@@ -38,8 +38,16 @@ services:
       - reverse-proxy
       - vaultwarden-internal
     depends_on:
+      vaultwarden-init:
+        condition: service_completed_successfully
       vaultwarden-db:
         condition: service_healthy
+  vaultwarden-init:
+    image: busybox
+    volumes:
+      - vaultwarden-logs:/var/log/vaultwarden
+    command: chown -R 1000:1000 /var/log/vaultwarden
+    network_mode: none
   vaultwarden-db-init:
     image: postgres:latest
     container_name: vaultwarden-db-init

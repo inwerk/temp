@@ -38,6 +38,12 @@ services:
         condition: service_healthy
       nextcloud-redis:
         condition: service_started
+  nextcloud-init:
+    image: busybox
+    volumes:
+      - nextcloud-logs:/var/log/nextcloud
+    command: chown -R 1000:1000 /var/log/nextcloud
+    network_mode: none
   nextcloud-db-init:
     image: postgres:latest
     container_name: nextcloud-db-init
