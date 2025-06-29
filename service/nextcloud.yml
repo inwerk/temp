@@ -52,8 +52,7 @@ services:
       - -c
       - |
         chown -R 1000:1000 /var/lib/postgresql/data
-    networks:
-      - none
+    network_mode: none
   nextcloud-db:
     image: postgres:latest
     container_name: nextcloud-db
