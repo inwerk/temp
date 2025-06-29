@@ -93,7 +93,7 @@ services:
     env_file:
       - ../config/nextcloud.env
     volumes:
-      - ../.docker/data/nextcloud:/var/www/html:rw
+      - nextcloud-data:/var/www/html:rw
     entrypoint: /cron.sh
     networks:
       - nextcloud-internal
