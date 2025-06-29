@@ -11,8 +11,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ../config/traefik.yml:/etc/traefik/traefik.yml:ro
       - ../config/dynamic.yml:/etc/traefik/dynamic.yml:ro
-      - ../.docker/data/letsencrypt:/etc/traefik/certs:rw
-      - ../.docker/logs/traefik:/var/log/traefik:rw
+      - letsencrypt-data:/etc/traefik/certs:rw
+      - traefik-logs:/var/log/traefik:rw
     ports:
       - "80:80"
       - "443:443"
@@ -71,3 +71,6 @@ services:
     networks:
       socket-proxy:
         ipv4_address: 172.19.255.254
+volumes:
+  letsencrypt-data:
+  traefik-logs:

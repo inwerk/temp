@@ -22,8 +22,8 @@ services:
     env_file:
       - ../config/nextcloud.env
     volumes:
-      - ../.docker/data/nextcloud:/var/www/html:rw
-      - ../.docker/logs/nextcloud:/var/log/nextcloud:rw
+      - nextcloud-data:/var/www/html:rw
+      - nextcloud-logs:/var/log/nextcloud:rw
       - ../scripts/nextcloud-post-installation.sh:/docker-entrypoint-hooks.d/post-installation/nextcloud-post-installation.sh:ro
     networks:
       - reverse-proxy
@@ -55,7 +55,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - ../.docker/data/nextcloud-database:/var/lib/postgresql/data:rw
+      - nextcloud-db-data:/var/lib/postgresql/data:rw
     networks:
       - nextcloud-internal
   nextcloud-redis:
@@ -68,7 +68,7 @@ services:
     secrets:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
     volumes:
-      - ../.docker/data/nextcloud-redis:/data
+      - nextcloud-redis-data:/data
     networks:
       - nextcloud-internal
     command: bash -c 'redis-server --requirepass "$$(cat /run/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD)"'
@@ -99,3 +99,8 @@ secrets:
     file: ../.docker/secrets/NEXTCLOUD_POSTGRES_PASSWORD
   NEXTCLOUD_REDIS_HOST_PASSWORD:
     file: ../.docker/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
+volumes:
+  nextcloud-data:
+  nextcloud-logs:
+  nextcloud-db-data:
+  nextcloud-redis-data:

@@ -12,10 +12,15 @@ services:
       BOUNCER_KEY_traefik: password
     volumes:
       - ../config/acquis.yml:/etc/crowdsec/acquis.yaml:ro
-      - ../.docker/data/crowdsec:/var/lib/crowdsec/data/:rw
-      - ../.docker/logs/traefik:/var/log/traefik:ro
-      - ../.docker/logs/nextcloud:/var/log/nextcloud:ro
-      - ../.docker/logs/vaultwarden:/var/log/vaultwarden:ro
+      - crowdsec-data:/var/lib/crowdsec/data/:rw
+      - nextcloud-logs:/var/log/nextcloud:ro
+      - traefik-logs:/var/log/traefik:ro
+      - vaultwarden-logs:/var/log/vaultwarden:ro
     networks:
       crowdsec-internal:
         ipv4_address: 172.20.255.254
+volumes:
+  crowdsec-data:
+  nextcloud-logs:
+  traefik-logs:
+  vaultwarden-logs:

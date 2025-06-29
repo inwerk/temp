@@ -28,8 +28,8 @@ services:
       - SMTP_PASSWORD=${SMTP_PASSWORD}
       - LOG_FILE=/var/log/vaultwarden/vaultwarden.log
     volumes:
-      - ../.docker/data/vaultwarden:/data:rw
-      - ../.docker/data/vaultwarden:/var/log/vaultwarden:rw
+      - vaultwarden-data:/data:rw
+      - vaultwarden-logs:/var/log/vaultwarden:rw
       - ../scripts/vaultwarden-entrypoint.sh:/entrypoint.sh:ro
     networks:
       - reverse-proxy
@@ -59,7 +59,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - ../.docker/data/vaultwarden-database:/var/lib/postgresql/data:rw
+      - vaultwarden-db-data:/var/lib/postgresql/data:rw
     networks:
       - vaultwarden-internal
 secrets:
@@ -67,3 +67,7 @@ secrets:
     file: ../.docker/secrets/VAULTWARDEN_ADMIN_TOKEN
   VAULTWARDEN_POSTGRES_PASSWORD:
     file: ../.docker/secrets/VAULTWARDEN_POSTGRES_PASSWORD
+volumes:
+  vaultwarden-data:
+  vaultwarden-logs:
+  vaultwarden-db-data:
