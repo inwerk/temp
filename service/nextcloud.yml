@@ -30,7 +30,7 @@ services:
     env_file:
       - ../config/nextcloud.env
     volumes:
-      - nextcloud:/var/www/html:rw
+      - nextcloud-app:/var/www/html:rw
       - nextcloud-logs:/var/log/nextcloud:rw
       - ../scripts/nextcloud-post-installation.sh:/docker-entrypoint-hooks.d/post-installation/nextcloud-post-installation.sh:ro
     networks:
@@ -101,7 +101,7 @@ services:
     env_file:
       - ../config/nextcloud.env
     volumes:
-      - nextcloud:/var/www/html:rw
+      - nextcloud-app:/var/www/html:rw
       - nextcloud-logs:/var/log/nextcloud:rw
     entrypoint: /cron.sh
     networks:
@@ -117,7 +117,7 @@ secrets:
   NEXTCLOUD_REDIS_HOST_PASSWORD:
     file: ../.docker/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
 volumes:
-  nextcloud:
+  nextcloud-app:
   nextcloud-db:
   nextcloud-logs:
   nextcloud-redis:

@@ -1,7 +1,7 @@
 services:
-  vaultwarden:
+  vaultwarden-app:
     image: vaultwarden/server:latest
-    container_name: vaultwarden
+    container_name: vaultwarden-app
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
@@ -30,7 +30,7 @@ services:
       - SMTP_PASSWORD=${SMTP_PASSWORD}
       - LOG_FILE=/var/log/vaultwarden/vaultwarden.log
     volumes:
-      - vaultwarden:/data:rw
+      - vaultwarden-app:/data:rw
       - vaultwarden-logs:/var/log/vaultwarden:rw
       - ../scripts/vaultwarden-entrypoint.sh:/entrypoint.sh:ro
     networks:
@@ -70,6 +70,6 @@ secrets:
   VAULTWARDEN_POSTGRES_PASSWORD:
     file: ../.docker/secrets/VAULTWARDEN_POSTGRES_PASSWORD
 volumes:
-  vaultwarden:
+  vaultwarden-app:
   vaultwarden-db:
   vaultwarden-logs:
