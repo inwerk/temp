@@ -107,7 +107,7 @@ services:
     networks:
       - nextcloud-internal
     depends_on:
-      nextclouda-app:
+      nextcloud-app:
         condition: service_started
 secrets:
   NEXTCLOUD_ADMIN_PASSWORD:
