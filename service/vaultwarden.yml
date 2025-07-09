@@ -39,27 +39,11 @@ services:
     depends_on:
       vaultwarden-db:
         condition: service_healthy
-  vaultwarden-db-init:
-    image: postgres:latest
-    container_name: vaultwarden-db-init
-    security_opt:
-      - no-new-privileges=true
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - vaultwarden-db:/var/lib/postgresql/data:rw
-    entrypoint:
-      - sh
-      - -c
-      - |
-        chown -R 1000:1000 /var/lib/postgresql/data
-    network_mode: none
   vaultwarden-db:
     image: postgres:latest
     container_name: vaultwarden-db
     hostname: vaultwarden-db
     restart: unless-stopped
-    user: "1000:1000"
     security_opt:
       - no-new-privileges=true
     healthcheck:
@@ -80,9 +64,6 @@ services:
       - vaultwarden-db:/var/lib/postgresql/data:rw
     networks:
       - vaultwarden-internal
-    depends_on:
-      vaultwarden-db-init:
-        condition: service_completed_successfully
 secrets:
   VAULTWARDEN_ADMIN_TOKEN:
     file: ../.docker/secrets/VAULTWARDEN_ADMIN_TOKEN

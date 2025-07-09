@@ -35,7 +35,7 @@ TODO
 
 TODO
 
-### Initial Server Setup
+### Server Configuration
 
 Connect to the server...
 

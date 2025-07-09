@@ -3,7 +3,6 @@ services:
     image: nextcloud:latest
     container_name: nextcloud
     restart: unless-stopped
-    user: "1000:1000"
     security_opt:
       - no-new-privileges=true
     labels:
@@ -26,10 +25,6 @@ services:
       - nextcloud:/var/www/html:rw
       - nextcloud-logs:/var/log/nextcloud:rw
       - ../scripts/nextcloud-post-installation.sh:/docker-entrypoint-hooks.d/post-installation/nextcloud-post-installation.sh:ro
-      # https://github.com/nextcloud/docker/issues/1494
-      - ../.docker/remoteip.conf:/etc/apache2/conf-enabled/remoteip.conf:ro
-      # https://github.com/nextcloud/docker/issues/763
-      - ../.docker/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:rw
     networks:
       - reverse-proxy
       - nextcloud-internal
@@ -38,33 +33,11 @@ services:
         condition: service_healthy
       nextcloud-redis:
         condition: service_started
-  nextcloud-init:
-    image: busybox
-    volumes:
-      - nextcloud-logs:/var/log/nextcloud
-    command: chown -R 1000:1000 /var/log/nextcloud
-    network_mode: none
-  nextcloud-db-init:
-    image: postgres:latest
-    container_name: nextcloud-db-init
-    security_opt:
-      - no-new-privileges=true
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - nextcloud-db:/var/lib/postgresql/data:rw
-    entrypoint:
-      - sh
-      - -c
-      - |
-        chown -R 1000:1000 /var/lib/postgresql/data
-    network_mode: none
   nextcloud-db:
     image: postgres:latest
     container_name: nextcloud-db
     hostname: nextcloud-db
     restart: unless-stopped
-    user: "1000:1000"
     security_opt:
       - no-new-privileges=true
     healthcheck:
@@ -85,9 +58,6 @@ services:
       - nextcloud-db:/var/lib/postgresql/data:rw
     networks:
       - nextcloud-internal
-    depends_on:
-      nextcloud-db-init:
-        condition: service_completed_successfully
   nextcloud-redis-init:
     image: busybox
     volumes:
@@ -99,7 +69,6 @@ services:
     container_name: nextcloud-redis
     hostname: redis
     restart: unless-stopped
-    user: "1000:1000"
     security_opt:
       - no-new-privileges=true
     secrets:
