@@ -116,6 +116,12 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
+Add your user to the `docker` group...
+
+```bash
+sudo usermod -aG docker $USER
+```
+
 ### Container Stack
 
 Clone this repository...
