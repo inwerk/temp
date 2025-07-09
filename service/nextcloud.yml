@@ -1,7 +1,15 @@
 services:
-  nextcloud:
+  nextcloud-init:
+    image: busybox:latest
+    container_name: nextcloud-init
+    restart: no
+    volumes:
+      - nextcloud-logs:/var/log/nextcloud:rw
+    network_mode: none
+    command: sh -c "chown -R www-data:www-data /var/log/nextcloud"
+  nextcloud-app:
     image: nextcloud:latest
-    container_name: nextcloud
+    container_name: nextcloud-app
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
@@ -29,6 +37,8 @@ services:
       - reverse-proxy
       - nextcloud-internal
     depends_on:
+      nextcloud-init:
+        condition: service_completed_successfully
       nextcloud-db:
         condition: service_healthy
       nextcloud-redis:
@@ -58,12 +68,6 @@ services:
       - nextcloud-db:/var/lib/postgresql/data:rw
     networks:
       - nextcloud-internal
-  nextcloud-redis-init:
-    image: busybox
-    volumes:
-      - nextcloud-redis:/data
-    command: chown -R 1000:1000 /data
-    network_mode: none
   nextcloud-redis:
     image: redis:latest
     container_name: nextcloud-redis
