@@ -3,3 +3,65 @@ include:
   - nextcloud/compose.yml
   - traefik/compose.yml
   - vaultwarden/compose.yml
+secrets:
+  NEXTCLOUD_ADMIN_PASSWORD:
+    file: .secrets/NEXTCLOUD_ADMIN_PASSWORD
+  NEXTCLOUD_POSTGRES_PASSWORD:
+    file: .secrets/NEXTCLOUD_POSTGRES_PASSWORD
+  NEXTCLOUD_REDIS_HOST_PASSWORD:
+    file: .secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
+  VAULTWARDEN_ADMIN_TOKEN_HASH:
+    file: .secrets/VAULTWARDEN_ADMIN_TOKEN_HASH
+  VAULTWARDEN_POSTGRES_PASSWORD:
+    file: .secrets/VAULTWARDEN_POSTGRES_PASSWORD
+volumes:
+  letsencrypt-data:
+  traefik-logs:
+  crowdsec:
+  nextcloud-app:
+  nextcloud-db:
+  nextcloud-logs:
+  nextcloud-redis:
+  vaultwarden-app:
+  vaultwarden-db:
+  vaultwarden-logs:
+networks:
+  reverse-proxy:
+    name: reverse-proxy
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.31.0.0/16
+    attachable: true
+  socket-proxy:
+    name: socket-proxy
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/16
+    internal: true
+  crowdsec-internal:
+    name: crowdsec-internal
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.29.0.0/16
+  nextcloud-internal:
+    name: nextcloud-internal
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+    internal: true
+  vaultwarden-internal:
+    name: vaultwarden-internal
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.27.0.0/16
+    internal: true

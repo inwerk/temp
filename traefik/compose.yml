@@ -69,23 +69,3 @@ services:
     networks:
       socket-proxy:
         ipv4_address: 172.30.255.254
-volumes:
-  letsencrypt-data:
-  traefik-logs:
-networks:
-  reverse-proxy:
-    name: reverse-proxy
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.31.0.0/16
-    attachable: true
-  socket-proxy:
-    name: socket-proxy
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.30.0.0/16
-    internal: true

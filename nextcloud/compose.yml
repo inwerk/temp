@@ -108,24 +108,3 @@ services:
     depends_on:
       nextcloud-app:
         condition: service_started
-secrets:
-  NEXTCLOUD_ADMIN_PASSWORD:
-    file: ../.docker/secrets/NEXTCLOUD_ADMIN_PASSWORD
-  NEXTCLOUD_POSTGRES_PASSWORD:
-    file: ../.docker/secrets/NEXTCLOUD_POSTGRES_PASSWORD
-  NEXTCLOUD_REDIS_HOST_PASSWORD:
-    file: ../.docker/secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
-volumes:
-  nextcloud-app:
-  nextcloud-db:
-  nextcloud-logs:
-  nextcloud-redis:
-networks:
-  nextcloud-internal:
-    name: nextcloud-internal
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.28.0.0/16
-    internal: true

@@ -19,16 +19,3 @@ services:
     networks:
       crowdsec-internal:
         ipv4_address: 172.29.255.254
-volumes:
-  crowdsec:
-  nextcloud-logs:
-  traefik-logs:
-  vaultwarden-logs:
-networks:
-  crowdsec-internal:
-    name: crowdsec-internal
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.29.0.0/16
