@@ -155,17 +155,10 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-Add your user to the `docker` group...
-
-```bash
-sudo usermod -aG docker $USER
-```
-
 Install packages required for Docker rootless mode...
 
 ```bash
-sudo apt-get install -y dbus-user-session
-sudo apt-get install -y uidmap
+sudo apt-get install -y dbus-user-session uidmap
 ```
 
 Expose privileged ports (< 1024)...
@@ -181,7 +174,7 @@ sudo systemctl disable --now docker.service docker.socket
 sudo rm /var/run/docker.sock
 ```
 
-Run the setup script a non-root user...
+Run the setup script as non-root user...
 
 ```
 dockerd-rootless-setuptool.sh install
