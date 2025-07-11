@@ -174,10 +174,12 @@ sudo systemctl disable --now docker.service docker.socket
 sudo rm /var/run/docker.sock
 ```
 
-Run the setup script as non-root user...
+Run the setup script as non-root user, enable rootless docker and prevent it from stopping, when logging out...
 
 ```
 dockerd-rootless-setuptool.sh install
+systemctl --user enable docker
+sudo loginctl enable-linger $USER
 ```
 
 ### Container Stack
