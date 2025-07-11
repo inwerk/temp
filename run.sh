@@ -53,7 +53,7 @@ done
 
 # Create a secure hash of the VAULTWARDEN_ADMIN_TOKEN
 if [[ ! -f ".docker/secrets/VAULTWARDEN_ADMIN_TOKEN_HASH" ]]; then
-  argon2 "$(openssl rand -base64 32)" -e -id -k 19456 -t 2 -p 1 < .docker/secrets/VAULTWARDEN_ADMIN_TOKEN | sed 's#\$#\$\$#g' > ".docker/secrets/VAULTWARDEN_ADMIN_TOKEN_HASH"
+  argon2 "$(openssl rand -base64 32)" -e -id -k 19456 -t 2 -p 1 < .docker/secrets/VAULTWARDEN_ADMIN_TOKEN > ".docker/secrets/VAULTWARDEN_ADMIN_TOKEN_HASH"
   chmod 600 ".docker/secrets/VAULTWARDEN_ADMIN_TOKEN_HASH"
   echo "Secret VAULTWARDEN_ADMIN_TOKEN_HASH created."
 else
