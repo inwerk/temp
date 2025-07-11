@@ -89,10 +89,50 @@ sudo systemctl restart ssh
 
 Install and configure UFW...
 
-```
+```bash
 sudo apt install ufw
 sudo ufw allow ssh
 sudo ufw enable
+```
+
+Prepare [UFW for Docker](https://github.com/chaifeng/ufw-docker#solving-ufw-and-docker-issues)...
+
+```bash
+sudo nano /etc/ufw/after.rules
+```
+
+Add the following rules at the end of the file:
+
+```
+# BEGIN UFW AND DOCKER
+*filter
+:ufw-user-forward - [0:0]
+:ufw-docker-logging-deny - [0:0]
+:DOCKER-USER - [0:0]
+-A DOCKER-USER -j ufw-user-forward
+
+-A DOCKER-USER -j RETURN -s 172.16.0.0/12
+
+-A DOCKER-USER -p udp -m udp --sport 53 --dport 1024:65535 -j RETURN
+
+-A DOCKER-USER -j ufw-docker-logging-deny -p tcp -m tcp --tcp-flags FIN,SYN,RST,ACK SYN -d 172.16.0.0/12
+-A DOCKER-USER -j ufw-docker-logging-deny -p udp -m udp --dport 0:32767 -d 172.16.0.0/12
+
+-A DOCKER-USER -j RETURN
+
+-A ufw-docker-logging-deny -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW DOCKER BLOCK] "
+-A ufw-docker-logging-deny -j DROP
+
+COMMIT
+# END UFW AND DOCKER
+```
+
+Allow public networks to access docker services via HTTP/HTTPS and restart UFW...
+
+```bash
+sudo ufw route allow proto tcp from any to any port 80
+sudo ufw route allow proto tcp from any to any port 443
+sudo ufw reload
 ```
 
 Install Docker according to the [installation instructions](https://docs.docker.com/engine/install/debian/) from the official Docker documentation...
