@@ -46,8 +46,8 @@ ssh <USERNAME>@<IP-ADDRESS>
 Update the server...
 
 ```bash
-sudo apt update
-sudo apt upgrade
+sudo apt-get update
+sudo apt-get upgrade
 ```
 
 Set the timezone...
@@ -90,7 +90,7 @@ sudo systemctl restart ssh
 Install UFW...
 
 ```bash
-sudo apt install ufw
+sudo apt-get install -y ufw
 ```
 
 Prepare [UFW for Docker](https://github.com/chaifeng/ufw-docker#solving-ufw-and-docker-issues)...
@@ -161,6 +161,32 @@ Add your user to the `docker` group...
 sudo usermod -aG docker $USER
 ```
 
+Install packages required for Docker rootless mode...
+
+```bash
+sudo apt-get install -y dbus-user-session
+sudo apt-get install -y uidmap
+```
+
+Expose privileged ports (< 1024)...
+
+```bash
+sudo setcap cap_net_bind_service=ep $(which rootlesskit)
+```
+
+Disable the system-wide Docker daemon...
+
+```bash
+sudo systemctl disable --now docker.service docker.socket
+sudo rm /var/run/docker.sock
+```
+
+Run the setup script a non-root user...
+
+```
+dockerd-rootless-setuptool.sh install
+```
+
 ### Container Stack
 
 Clone this repository...
@@ -201,4 +227,5 @@ TODO
 ## References
 - [How to Secure an SSH Server in Linux](https://www.baeldung.com/linux/secure-ssh-server)
 - [Docker Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html)
-- [Health Check for MariaDB](https://mariadb.com/kb/en/using-healthcheck-sh/)
+- [To fix the Docker and UFW security flaw without disabling iptables](https://github.com/chaifeng/ufw-docker)
+- [Docker rootless mode](https://docs.docker.com/engine/security/rootless/)
