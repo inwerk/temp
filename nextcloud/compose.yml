@@ -15,6 +15,12 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sSf 'http://localhost/status.php' | grep '\"installed\":true' | grep '\"maintenance\":false' | grep '\"needsDbUpgrade\":false' || exit 1"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 10
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud.entrypoints=websecure"
@@ -109,4 +115,4 @@ services:
       - nextcloud-internal
     depends_on:
       nextcloud-app:
-        condition: service_started
+        condition: service_healthy
