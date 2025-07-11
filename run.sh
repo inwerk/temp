@@ -20,7 +20,7 @@ fi
 
 # Check for argon2
 if ! command -v argon2 >/dev/null 2>&1; then
-  echo "Error: openssl is not installed. Please install it (sudo apt update && sudo apt install argon2) and try again." >&2
+  echo "Error: argon2 is not installed. Please install it (sudo apt update && sudo apt install argon2) and try again." >&2
   exit 1
 fi
 
