@@ -17,10 +17,10 @@ services:
       - no-new-privileges=true
     healthcheck:
       test: ["CMD-SHELL", "curl -sSf 'http://localhost/status.php' | grep '\"installed\":true' | grep '\"maintenance\":false' | grep '\"needsDbUpgrade\":false' || exit 1"]
-      start_period: 30s
+      start_period: 60s
       interval: 10s
       timeout: 5s
-      retries: 20
+      retries: 15
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud.entrypoints=websecure"
