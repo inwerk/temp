@@ -1,3 +1,4 @@
+name: homelab
 include:
   - crowdsec/compose.yml
   - nextcloud/compose.yml
