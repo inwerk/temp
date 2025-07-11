@@ -1,0 +1,32 @@
+name: Check Script Permissions
+
+on:
+  pull_request:
+    paths:
+      - 'nextcloud/nextcloud-post-installation.sh'
+      - 'vaultwarden/vaultwarden-entrypoint.sh'
+  push:
+    paths:
+      - 'nextcloud/nextcloud-post-installation.sh'
+      - 'vaultwarden/vaultwarden-entrypoint.sh'
+
+jobs:
+  check-permissions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Check executable permissions for Nextcloud post-installation script
+        run: |
+          perms=$(stat -c "%A" nextcloud/nextcloud-post-installation.sh)
+          if [ "$perms" != "-rwxr-xr-x" ]; then
+            echo "::error file=nextcloud/nextcloud-post-installation.sh::File permission is '$perms', should be '-rwxr-xr-x'"
+            exit 1
+          fi
+      - name: Check executable permissions for Vaultwarden entrypoint script
+        run: |
+          perms=$(stat -c "%A" vaultwarden/vaultwarden-entrypoint.sh)
+          if [ "$perms" != "-rwxr-xr-x" ]; then
+            echo "::error file=vaultwarden/vaultwarden-entrypoint.sh::File permission is '$perms', should be '-rwxr-xr-x'"
+            exit 1
+          fi
