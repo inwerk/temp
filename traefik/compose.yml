@@ -9,8 +9,8 @@ services:
       - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - traefik.yml:/etc/traefik/traefik.yml:ro
-      - dynamic.yml:/etc/traefik/dynamic.yml:ro
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./dynamic.yml:/etc/traefik/dynamic.yml:ro
       - letsencrypt-data:/etc/traefik/certs:rw
       - traefik-logs:/var/log/traefik:rw
     ports:

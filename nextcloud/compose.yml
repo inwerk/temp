@@ -28,11 +28,11 @@ services:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
       - NEXTCLOUD_POSTGRES_PASSWORD
     env_file:
-      - config.env
+      - ./config.env
     volumes:
       - nextcloud-app:/var/www/html:rw
       - nextcloud-logs:/var/log/nextcloud:rw
-      - nextcloud-post-installation.sh:/docker-entrypoint-hooks.d/post-installation/nextcloud-post-installation.sh:ro
+      - ./nextcloud-post-installation.sh:/docker-entrypoint-hooks.d/post-installation/nextcloud-post-installation.sh:ro
     networks:
       - reverse-proxy
       - nextcloud-internal

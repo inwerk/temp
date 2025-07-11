@@ -32,7 +32,7 @@ services:
     volumes:
       - vaultwarden-app:/data:rw
       - vaultwarden-logs:/var/log/vaultwarden:rw
-      - vaultwarden-entrypoint.sh:/entrypoint.sh:ro
+      - ./vaultwarden-entrypoint.sh:/entrypoint.sh:ro
     networks:
       - reverse-proxy
       - vaultwarden-internal
