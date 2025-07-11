@@ -55,9 +55,9 @@ done
 if [[ ! -f ".docker/secrets/VAULTWARDEN_ADMIN_TOKEN_HASH" ]]; then
   argon2 "$(openssl rand -base64 32)" -e -id -k 19456 -t 2 -p 1 < .docker/secrets/VAULTWARDEN_ADMIN_TOKEN | sed 's#\$#\$\$#g' > ".docker/secrets/VAULTWARDEN_ADMIN_TOKEN_HASH"
   chmod 600 ".docker/secrets/VAULTWARDEN_ADMIN_TOKEN_HASH"
-  echo "VAULTWARDEN_ADMIN_TOKEN_HASH created."
+  echo "Secret VAULTWARDEN_ADMIN_TOKEN_HASH created."
 else
-  echo "VAULTWARDEN_ADMIN_TOKEN_HASH already exists."
+  echo "Secret VAULTWARDEN_ADMIN_TOKEN_HASH already exists."
 fi
 
 # Deploy with docker compose
