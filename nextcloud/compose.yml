@@ -20,7 +20,7 @@ services:
       start_period: 10s
       interval: 10s
       timeout: 5s
-      retries: 10
+      retries: 20
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud.entrypoints=websecure"
