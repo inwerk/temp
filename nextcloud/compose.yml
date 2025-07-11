@@ -3,6 +3,8 @@ services:
     image: busybox:latest
     container_name: nextcloud-init
     restart: no
+    security_opt:
+      - no-new-privileges=true
     volumes:
       - nextcloud-logs:/var/log/nextcloud:rw
     network_mode: none
