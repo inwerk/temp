@@ -26,8 +26,6 @@ services:
     depends_on:
       docker-socket:
         condition: service_started
-    command:
-      - "--certificatesresolvers.cloudflare.acme.email=${EMAIL}"
   docker-socket:
     image: lscr.io/linuxserver/socket-proxy:latest
     container_name: docker-socket
