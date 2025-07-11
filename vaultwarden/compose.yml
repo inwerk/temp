@@ -16,11 +16,11 @@ services:
       - "traefik.http.services.vaultwarden.loadbalancer.passHostHeader=true"
       - "traefik.docker.network=reverse-proxy"
     secrets:
-      - VAULTWARDEN_ADMIN_TOKEN
+      - VAULTWARDEN_ADMIN_TOKEN_HASH
       - VAULTWARDEN_POSTGRES_PASSWORD
     environment:
       - DOMAIN=https://vault.${DOMAIN}
-      - ADMIN_TOKEN_FILE=/run/secrets/VAULTWARDEN_ADMIN_TOKEN
+      - ADMIN_TOKEN_FILE=/run/secrets/VAULTWARDEN_ADMIN_TOKEN_HASH
       - SIGNUPS_ALLOWED=true
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_PORT=${SMTP_PORT}
@@ -29,6 +29,7 @@ services:
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
       - LOG_FILE=/var/log/vaultwarden/vaultwarden.log
+      - SHOW_PASSWORD_HINT=false
     volumes:
       - vaultwarden-app:/data:rw
       - vaultwarden-logs:/var/log/vaultwarden:rw
@@ -65,8 +66,8 @@ services:
     networks:
       - vaultwarden-internal
 secrets:
-  VAULTWARDEN_ADMIN_TOKEN:
-    file: ../.docker/secrets/VAULTWARDEN_ADMIN_TOKEN
+  VAULTWARDEN_ADMIN_TOKEN_HASH:
+    file: ../.docker/secrets/VAULTWARDEN_ADMIN_TOKEN_HASH
   VAULTWARDEN_POSTGRES_PASSWORD:
     file: ../.docker/secrets/VAULTWARDEN_POSTGRES_PASSWORD
 volumes:
