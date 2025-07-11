@@ -34,6 +34,7 @@ services:
       - vaultwarden-app:/data:rw
       - vaultwarden-logs:/var/log/vaultwarden:rw
       - ./vaultwarden-entrypoint.sh:/entrypoint.sh:ro
+    entrypoint: /entrypoint.sh
     networks:
       - reverse-proxy
       - vaultwarden-internal
