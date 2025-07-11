@@ -3,28 +3,6 @@ include:
   - nextcloud/compose.yml
   - traefik/compose.yml
   - vaultwarden/compose.yml
-secrets:
-  NEXTCLOUD_ADMIN_PASSWORD:
-    file: .secrets/NEXTCLOUD_ADMIN_PASSWORD
-  NEXTCLOUD_POSTGRES_PASSWORD:
-    file: .secrets/NEXTCLOUD_POSTGRES_PASSWORD
-  NEXTCLOUD_REDIS_HOST_PASSWORD:
-    file: .secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
-  VAULTWARDEN_ADMIN_TOKEN_HASH:
-    file: .secrets/VAULTWARDEN_ADMIN_TOKEN_HASH
-  VAULTWARDEN_POSTGRES_PASSWORD:
-    file: .secrets/VAULTWARDEN_POSTGRES_PASSWORD
-volumes:
-  letsencrypt-data:
-  traefik-logs:
-  crowdsec:
-  nextcloud-app:
-  nextcloud-db:
-  nextcloud-logs:
-  nextcloud-redis:
-  vaultwarden-app:
-  vaultwarden-db:
-  vaultwarden-logs:
 networks:
   reverse-proxy:
     name: reverse-proxy
@@ -65,3 +43,25 @@ networks:
       config:
         - subnet: 172.27.0.0/16
     internal: true
+volumes:
+  letsencrypt-data:
+  traefik-logs:
+  crowdsec:
+  nextcloud-app:
+  nextcloud-db:
+  nextcloud-logs:
+  nextcloud-redis:
+  vaultwarden-app:
+  vaultwarden-db:
+  vaultwarden-logs:
+secrets:
+  NEXTCLOUD_ADMIN_PASSWORD:
+    file: .secrets/NEXTCLOUD_ADMIN_PASSWORD
+  NEXTCLOUD_POSTGRES_PASSWORD:
+    file: .secrets/NEXTCLOUD_POSTGRES_PASSWORD
+  NEXTCLOUD_REDIS_HOST_PASSWORD:
+    file: .secrets/NEXTCLOUD_REDIS_HOST_PASSWORD
+  VAULTWARDEN_ADMIN_TOKEN_HASH:
+    file: .secrets/VAULTWARDEN_ADMIN_TOKEN_HASH
+  VAULTWARDEN_POSTGRES_PASSWORD:
+    file: .secrets/VAULTWARDEN_POSTGRES_PASSWORD
