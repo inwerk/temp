@@ -87,12 +87,10 @@ sudo nano /etc/ssh/sshd_config
 sudo systemctl restart ssh
 ```
 
-Install and configure UFW...
+Install UFW...
 
 ```bash
 sudo apt install ufw
-sudo ufw allow ssh
-sudo ufw enable
 ```
 
 Prepare [UFW for Docker](https://github.com/chaifeng/ufw-docker#solving-ufw-and-docker-issues)...
@@ -127,12 +125,13 @@ COMMIT
 # END UFW AND DOCKER
 ```
 
-Allow public networks to access docker services via HTTP/HTTPS and restart UFW...
+Allow public networks to access the server via SSH and docker services via HTTP/HTTPS...
 
 ```bash
+sudo ufw allow ssh
 sudo ufw route allow proto tcp from any to any port 80
 sudo ufw route allow proto tcp from any to any port 443
-sudo ufw reload
+sudo ufw enable
 ```
 
 Install Docker according to the [installation instructions](https://docs.docker.com/engine/install/debian/) from the official Docker documentation...
