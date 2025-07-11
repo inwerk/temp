@@ -32,7 +32,7 @@ services:
     volumes:
       - vaultwarden-app:/data:rw
       - vaultwarden-logs:/var/log/vaultwarden:rw
-      - ../scripts/vaultwarden-entrypoint.sh:/entrypoint.sh:ro
+      - vaultwarden-entrypoint.sh:/entrypoint.sh:ro
     networks:
       - reverse-proxy
       - vaultwarden-internal
@@ -73,3 +73,12 @@ volumes:
   vaultwarden-app:
   vaultwarden-db:
   vaultwarden-logs:
+networks:
+  vaultwarden-internal:
+    name: vaultwarden-internal
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.27.0.0/16
+    internal: true

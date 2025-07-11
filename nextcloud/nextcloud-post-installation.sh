@@ -12,7 +12,6 @@
 /var/www/html/occ config:system:set logfile --type=string --value='/var/log/nextcloud/nextcloud.log'
 /var/www/html/occ config:system:set loglevel --type=integer --value='1'
 /var/www/html/occ config:system:set logdateformat --type=string --value='c'
-touch /var/log/nextcloud/nextcloud.log && chmod 644 /var/log/nextcloud/nextcloud.log
 
 # Run background jobs between 01:00am UTC and 05:00am UTC.
 /var/www/html/occ config:system:set maintenance_window_start --type=integer --value=1

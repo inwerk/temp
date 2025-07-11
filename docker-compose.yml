@@ -1,6 +1,5 @@
 include:
-  - networks.yml
-  - service/crowdsec.yml
-  - service/nextcloud.yml
-  - service/traefik.yml
-  - service/vaultwarden.yml
+  - crowdsec/compose.yml
+  - nextcloud/compose.yml
+  - traefik/compose.yml
+  - vaultwarden/compose.yml

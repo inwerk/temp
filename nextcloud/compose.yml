@@ -28,11 +28,11 @@ services:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
       - NEXTCLOUD_POSTGRES_PASSWORD
     env_file:
-      - ../config/nextcloud.env
+      - config.env
     volumes:
       - nextcloud-app:/var/www/html:rw
       - nextcloud-logs:/var/log/nextcloud:rw
-      - ../scripts/nextcloud-post-installation.sh:/docker-entrypoint-hooks.d/post-installation/nextcloud-post-installation.sh:ro
+      - nextcloud-post-installation.sh:/docker-entrypoint-hooks.d/post-installation/nextcloud-post-installation.sh:ro
     networks:
       - reverse-proxy
       - nextcloud-internal
@@ -99,10 +99,9 @@ services:
       - NEXTCLOUD_REDIS_HOST_PASSWORD
       - NEXTCLOUD_POSTGRES_PASSWORD
     env_file:
-      - ../config/nextcloud.env
+      - config.env
     volumes:
       - nextcloud-app:/var/www/html:rw
-      - nextcloud-logs:/var/log/nextcloud:rw
     entrypoint: /cron.sh
     networks:
       - nextcloud-internal
@@ -121,3 +120,12 @@ volumes:
   nextcloud-db:
   nextcloud-logs:
   nextcloud-redis:
+networks:
+  nextcloud-internal:
+    name: nextcloud-internal
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+    internal: true
